@@ -1,9 +1,9 @@
 
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 20:07
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 05.08.2022, 20:01
+ *  * Last modified 07.08.2022, 22:24
  *
  */
 
@@ -15,6 +15,8 @@ abstract class UCGame {
 
   List<MMath> genLevel();
   MLevelSession getExample();
+  MLevelSession getCurrentExample();
   bool checkExample(MMath example, int answer);
+  List<MMath> getWrong();
 
 }

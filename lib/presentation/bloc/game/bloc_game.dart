@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 20:07
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 05.08.2022, 20:01
+ *  * Last modified 07.08.2022, 22:41
  *
  */
 
@@ -21,35 +21,51 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
 
   BlocGame(this._game) : super(BlocGameState.idle()) {
     on<BlocGameEvent>((event, emit) {
-      event.when(startLevel: () {
-        _game.genLevel();
-      }, nextExample: () {
-        emit(BlocGameState.example(_game.getExample()));
-      }, checkExample: (example, answer) {
-        if (_game.checkExample(example, answer))
-          emit(BlocGameState.example(_game.getExample()));
-        else
-          emit(BlocGameState.gameOver());
-      });
+      event.when(
+          startLevel: () {
+            _game.genLevel();
+            emit(BlocGameState.startLevel());
+          },
+          nextExample: () {
+            emit(BlocGameState.example(_game.getExample()));
+          },
+          checkExample: (example, answer) {
+            if (_game.checkExample(example, answer))
+              emit(BlocGameState.example(_game.getExample()));
+            else
+              emit(BlocGameState.gameOver(_game.getWrong()));
+          },
+          gameOver: () => emit(BlocGameState.gameOver(_game.getWrong())),
+          showHint: () => emit(BlocGameState.hint(_game.getCurrentExample())),
+      );
     });
   }
 }
 
 @freezed
 class BlocGameEvent with _$BlocGameEvent {
-  const factory BlocGameEvent.startLevel() = _StartLevel;
+  const factory BlocGameEvent.startLevel() = _StartLevelEvent;
 
-  const factory BlocGameEvent.nextExample() = _NextExample;
+  const factory BlocGameEvent.nextExample() = _NextExampleEvent;
 
   const factory BlocGameEvent.checkExample(MMath example, int answer) =
-      _CheckExample;
+      _CheckExampleEvent;
+
+  const factory BlocGameEvent.gameOver() = _GameOverEvent;
+
+  const factory BlocGameEvent.showHint() = _ShowHintEvent;
 }
 
 @freezed
 class BlocGameState with _$BlocGameState {
   const factory BlocGameState.idle() = _IdleState;
 
-  const factory BlocGameState.example(MLevelSession example) = _Examle;
+  const factory BlocGameState.startLevel() = _StartLevelState;
 
-  const factory BlocGameState.gameOver() = _GameOver;
+  const factory BlocGameState.example(MLevelSession example) = _ExamleState;
+
+  const factory BlocGameState.hint(MLevelSession example) = _HintState;
+
+  const factory BlocGameState.gameOver(List<MMath> wrongExample) =
+      _GameOverState;
 }

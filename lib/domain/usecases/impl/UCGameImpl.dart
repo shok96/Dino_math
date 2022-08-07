@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 20:07
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 05.08.2022, 20:05
+ *  * Last modified 07.08.2022, 22:40
  *
  */
 
@@ -19,12 +19,17 @@ class UCGameImpl extends UCGame {
 
   List<MMath> _listExample = <MMath>[];
 
+  List<MMath> _listExampleWrong = <MMath>[];
+
+  late MLevelSession _currentExample;
+
   int _counter = 0;
 
   UCGameImpl(this._mathSolver);
 
   void _clear() {
     _listExample.clear();
+    _listExampleWrong.clear();
     _counter = 0;
   }
 
@@ -68,10 +73,11 @@ class UCGameImpl extends UCGame {
     if ((_counter) < _listExample.length) {
       _counter++;
     }
-    return MLevelSession(
+    _currentExample = MLevelSession(
         task: _genExample(res),
         currentIndex: _currentCounter,
         lengthExample: _listExample.length);
+    return _currentExample;
   }
 
   bool _checkAnswer(int answer, int question) {
@@ -80,9 +86,24 @@ class UCGameImpl extends UCGame {
 
   bool _hasExample() => ((_counter) < _listExample.length);
 
+
+
   @override
   bool checkExample(MMath example, int answer) {
     final _check = _checkAnswer(answer, example.answer);
+    if(!_check){
+      _listExampleWrong.add(example);
+    }
     return _hasExample();
+  }
+
+  @override
+  List<MMath> getWrong() {
+   return _listExampleWrong;
+  }
+
+  @override
+  MLevelSession getCurrentExample() {
+    return _currentExample;
   }
 }

@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 20:07
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 03.08.2022, 22:58
+ *  * Last modified 06.08.2022, 20:24
  *
  */
 
@@ -15,7 +15,6 @@ import 'package:dino_solver/presentation/bloc/game/bloc_game.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart' hide Headers;
 
-import 'presentation/bloc/user/bloc_user_bloc.dart';
 
 final sl = GetIt.instance;
 

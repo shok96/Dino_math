@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 21:58
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 05.08.2022, 21:58
+ *  * Last modified 07.08.2022, 22:17
  *
  */
 
@@ -17,8 +17,10 @@ import 'custom_button.dart';
 
 class ButtonAnswerAction extends StatelessWidget {
   MExample? example;
+  bool hint;
 
-  ButtonAnswerAction({Key? key, this.example}) : super(key: key);
+  ButtonAnswerAction({Key? key, this.example, this.hint = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +34,17 @@ class ButtonAnswerAction extends StatelessWidget {
           crossAxisCount: 2),
       itemBuilder: (context, index) => CustomButton(
           full_width: true,
-          text: example != null ? example!.r[index].toString() : "?",
+          text: example != null
+              ? (hint
+                  ? ((example!.example.answer == example!.r[index])
+                      ? example!.r[index].toString()
+                      : "*")
+                  : example!.r[index].toString())
+              : "?",
           action: () {
-            if(example != null) {
-              context.read<BlocGame>().add(BlocGameEvent.checkExample(example!.example, example!.r[index]));
+            if (example != null) {
+              context.read<BlocGame>().add(BlocGameEvent.checkExample(
+                  example!.example, example!.r[index]));
             }
           },
           color: ConstColors.green),

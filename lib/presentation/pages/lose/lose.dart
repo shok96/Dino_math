@@ -1,14 +1,15 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 20:07
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 03.08.2022, 21:59
+ *  * Last modified 07.08.2022, 21:33
  *
  */
 
 import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
+import 'package:dino_solver/data/models/MMath.dart';
 import 'package:dino_solver/presentation/pages/game/game.dart';
 import 'package:dino_solver/presentation/pages/how/how.dart';
 import 'package:dino_solver/presentation/pages/pay/pay.dart';
@@ -17,7 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Lose extends StatelessWidget {
-  const Lose({Key? key}) : super(key: key);
+  List<MMath> wrongExample;
+
+  Lose({Key? key, required this.wrongExample}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

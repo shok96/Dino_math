@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 20:07
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 03.08.2022, 21:07
+ *  * Last modified 07.08.2022, 22:47
  *
  */
 
@@ -11,10 +11,13 @@ import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
 import 'package:dino_solver/domain/usecases/intf/UCGame.dart';
 import 'package:dino_solver/presentation/bloc/game/bloc_game.dart';
+import 'package:dino_solver/presentation/pages/how/how.dart';
+import 'package:dino_solver/presentation/pages/lose/lose.dart';
 import 'package:dino_solver/presentation/pages/win/win.dart';
 import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
 import 'package:dino_solver/presentation/widgets/button_answer_action.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
+import 'package:dino_solver/presentation/widgets/example_container.dart';
 import 'package:dino_solver/presentation/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,25 +44,25 @@ class _GameScreen extends StatefulWidget {
 }
 
 class _GameState extends State<_GameScreen> {
+  GlobalKey<ProgressBarState> _globalKeyProgressBar = GlobalKey();
 
   late BlocGame blocGame;
 
-  final texViewStyle = TeXViewStyle(
-      margin: TeXViewMargin.only(top: 16.h.round(), bottom: 16.h.round()),
-      backgroundColor: ConstColors.whiteTransparent,
-      borderRadius: TeXViewBorderRadius.all(20.r.round()),
-      padding: TeXViewPadding.only(
-          top: 12.r.round(),
-          bottom: 12.h.round(),
-          left: 16.w.round(),
-          right: 16.w.round()));
 
   @override
   void didChangeDependencies() {
     blocGame = context.read<BlocGame>();
+    super.didChangeDependencies();
     blocGame.add(BlocGameEvent.startLevel());
     blocGame.add(BlocGameEvent.nextExample());
-    super.didChangeDependencies();
+    blocGame.stream.listen((event) {
+      event.maybeWhen(
+          orElse: () {},
+          startLevel: () => Future.delayed(Duration(seconds: 1),
+              () => _globalKeyProgressBar.currentState?.start()),
+      gameOver: (data) =>  Utils.routerScreen(context, data.length > 0 ? Lose(wrongExample: data,) : Win())
+      );
+    });
   }
 
   @override
@@ -79,41 +82,52 @@ class _GameState extends State<_GameScreen> {
               Text("Уровень"),
               Row(
                 children: [
-                  Column(
-                    children: [
-                      Image.asset(LocalImages.known),
-                      Text(
-                        "Как решать?",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            ?.copyWith(fontSize: 10.sp),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Utils.routerScreen(context, How());
+                    },
+                    child: Column(
+                      children: [
+                        Image.asset(LocalImages.known),
+                        Text(
+                          "Как решать?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(fontSize: 10.sp),
+                        )
+                      ],
+                    ),
                   ),
                   Spacer(),
                   BlocBuilder<BlocGame, BlocGameState>(
                       builder: (context, state) => state.maybeWhen(
                             orElse: () => SizedBox.shrink(),
-                            example: (data) => Text("${data.currentIndex+1}/${data.lengthExample}"),
+                            example: (data) => Text(
+                                "${data.currentIndex + 1}/${data.lengthExample}"),
                           )),
                   Spacer(),
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text("+2"),
-                          Image.asset(LocalImages.pen),
-                        ],
-                      ),
-                      Text(
-                        "Подсказка",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2
-                            ?.copyWith(fontSize: 10.sp),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      blocGame.add(BlocGameEvent.showHint());
+                    },
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text("+2"),
+                            Image.asset(LocalImages.pen),
+                          ],
+                        ),
+                        Text(
+                          "Подсказка",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(fontSize: 10.sp),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -121,10 +135,12 @@ class _GameState extends State<_GameScreen> {
                 height: 16.h,
               ),
               ProgressBar(
-                duration: Duration(milliseconds: 3000),
-                value: 0.5,
-                height: 13,
+                key: _globalKeyProgressBar,
+                duration: Duration(seconds: 10),
                 frColor: ConstColors.green,
+                onFinish: () {
+                  blocGame.add(BlocGameEvent.gameOver());
+                },
               ),
               SizedBox(
                 height: 16.h,
@@ -144,25 +160,11 @@ class _GameState extends State<_GameScreen> {
                           orElse: () => SizedBox.shrink(),
                           example: (data) => Padding(
                                 padding: EdgeInsets.all(30.r),
-                                child: TeXView(
-                                    style: TeXViewStyle(
-                                        textAlign: TeXViewTextAlign.Center),
-                                    loadingWidgetBuilder: (context) =>
-                                        CircularProgressIndicator(),
-                                    renderingEngine:
-                                        TeXViewRenderingEngine.mathjax(),
-                                    child: TeXViewColumn(children: [
-                                      TeXViewContainer(
-                                          child: TeXViewMarkdown(
-                                              data.task.example.question,
-                                              style: TeXViewStyle(
-                                                  fontStyle: TeXViewFontStyle(
-                                                      fontSize: 30),
-                                                  contentColor:
-                                                      ConstColors.black)),
-                                          style: texViewStyle),
-                                    ])),
-                              )),
+                                child: ExampleContainer(text: data.task.example.question),
+                              ), hint: (data) => Padding(
+                        padding: EdgeInsets.all(30.r),
+                        child: ExampleContainer(text: data.task.example.question),
+                      )),
                     ),
                   ),
                 ),
@@ -176,7 +178,12 @@ class _GameState extends State<_GameScreen> {
                         orElse: () => ButtonAnswerAction(),
                         example: (data) => ButtonAnswerAction(
                               example: data.task,
-                            )),
+                            ),
+                      hint:(data) => ButtonAnswerAction(
+                        example: data.task,
+                        hint: true,
+                      )
+                    ),
                   )),
                 ),
               ),

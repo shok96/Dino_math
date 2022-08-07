@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Kosyachenko Roman aka Andlancer on 05.08.2022, 20:07
+ *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 03.08.2022, 21:28
+ *  * Last modified 07.08.2022, 21:34
  *
  */
 
@@ -57,7 +57,7 @@ class Win extends StatelessWidget {
                   CustomButton(
                       text: "Продолжить",
                       action: () {
-                        Utils.routerScreen(context, Lose());
+                       // Utils.routerScreen(context, Lose());
                       },
                       color: ConstColors.lightGrown,
                       color_text: ConstColors.lightGrownBorder),
