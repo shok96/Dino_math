@@ -7,6 +7,7 @@
  */
 
 import 'dart:async';
+import 'package:dino_solver/data/models/MDifficult.dart';
 import 'package:dino_solver/data/models/MLevelSession.dart';
 import 'package:dino_solver/data/models/MMath.dart';
 import 'package:dino_solver/domain/usecases/intf/UCGame.dart';
@@ -22,21 +23,32 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
   BlocGame(this._game) : super(BlocGameState.idle()) {
     on<BlocGameEvent>((event, emit) {
       event.when(
-          startLevel: () {
-            _game.genLevel();
-            emit(BlocGameState.startLevel());
-          },
-          nextExample: () {
+        startLevel: (level, difficult) {
+          _game.genLevel(level, difficult);
+          emit(BlocGameState.startLevel());
+        },
+        nextExample: () {
+          emit(BlocGameState.example(_game.getExample()));
+        },
+        checkExample: (example, answer) {
+          if (_game.checkExample(example, answer))
             emit(BlocGameState.example(_game.getExample()));
-          },
-          checkExample: (example, answer) {
-            if (_game.checkExample(example, answer))
-              emit(BlocGameState.example(_game.getExample()));
-            else
-              emit(BlocGameState.gameOver(_game.getWrong()));
-          },
-          gameOver: () => emit(BlocGameState.gameOver(_game.getWrong())),
-          showHint: () => emit(BlocGameState.hint(_game.getCurrentExample())),
+          else
+            emit(BlocGameState.gameOver(_game.getWrong(), false));
+        },
+        gameOver: (time) =>
+            emit(BlocGameState.gameOver(_game.getWrong(), time)),
+        showHint: () => emit(BlocGameState.hint(_game.getCurrentExample())),
+        restartLevel: (difficult) {
+          _game.restartLevel(difficult);
+          emit(BlocGameState.startLevel());
+          emit(BlocGameState.example(_game.getExample()));
+        },
+        nextLevel: (MDifficult difficult) {
+          _game.nextLevel(difficult);
+          emit(BlocGameState.startLevel());
+          emit(BlocGameState.example(_game.getExample()));
+        },
       );
     });
   }
@@ -44,14 +56,21 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
 
 @freezed
 class BlocGameEvent with _$BlocGameEvent {
-  const factory BlocGameEvent.startLevel() = _StartLevelEvent;
+  const factory BlocGameEvent.startLevel(int level, MDifficult difficult) =
+      _StartLevelEvent;
+
+  const factory BlocGameEvent.nextLevel(MDifficult difficult) = _NextLevelEvent;
+
+  const factory BlocGameEvent.restartLevel(MDifficult difficult) =
+      _RestartLevelEvent;
 
   const factory BlocGameEvent.nextExample() = _NextExampleEvent;
 
   const factory BlocGameEvent.checkExample(MMath example, int answer) =
       _CheckExampleEvent;
 
-  const factory BlocGameEvent.gameOver() = _GameOverEvent;
+  const factory BlocGameEvent.gameOver({@Default(false) bool time}) =
+      _GameOverEvent;
 
   const factory BlocGameEvent.showHint() = _ShowHintEvent;
 }
@@ -66,6 +85,6 @@ class BlocGameState with _$BlocGameState {
 
   const factory BlocGameState.hint(MLevelSession example) = _HintState;
 
-  const factory BlocGameState.gameOver(List<MMath> wrongExample) =
+  const factory BlocGameState.gameOver(List<MMath> wrongExample, bool time) =
       _GameOverState;
 }

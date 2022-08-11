@@ -9,14 +9,30 @@
 import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
+import 'package:dino_solver/domain/usecases/intf/UCLevel.dart';
+import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/pages/game/game.dart';
+import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/levels_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dino_solver/di.dart' as di;
 
 class Levels extends StatelessWidget {
-  const Levels({Key? key}) : super(key: key);
+  Levels({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProxy<BlocLevel>(
+        bloc: (context, bloc) => BlocLevel(di.sl<UCLevel>())..add(BlocLevelEvent.refresh()),
+        child: _LevelsScreen());
+  }
+}
+
+class _LevelsScreen extends StatelessWidget {
+  const _LevelsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,28 +67,60 @@ class Levels extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.asset(LocalImages.star_on, scale: 2,),
+                      Image.asset(
+                        LocalImages.star_on,
+                        scale: 2,
+                      ),
                       SizedBox(
                         width: 20.w,
                       ),
                       Text("0")
                     ],
                   ),
-                  SizedBox(height: 32.h,),
-                  Text("Шакальник", textAlign: TextAlign.center,),
-                  SizedBox(height: 32.h,),
-                  Expanded(child: GridView.builder(gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200.r,
-                      childAspectRatio: 4 / 2,
-                      crossAxisSpacing: 20.r,
-                      mainAxisSpacing: 20.r), itemBuilder: (context, index) => GestureDetector(
-                      onTap: (){
-                        Utils.routerScreen(context, Game());
-                      },
-                      child: LevelsItem(text: "${index}",)), itemCount: 10,)),
-                  SizedBox(height: 32.h,),
+                  SizedBox(
+                    height: 32.h,
+                  ),
+                  Text(
+                    "Шакальник",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 32.h,
+                  ),
+                  Expanded(child: BlocBuilder<BlocLevel, BlocLevelState>(
+                    builder: (context, state) {
+                      return state.when(
+                          idle: () => SizedBox.shrink(),
+                          levels: (data) => GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 200.r,
+                                        childAspectRatio: 4 / 2,
+                                        crossAxisSpacing: 20.r,
+                                        mainAxisSpacing: 20.r),
+                                itemBuilder: (context, index) =>
+                                    GestureDetector(
+                                        onTap: () {
+                                          Utils.routerScreen(
+                                              context,
+                                              Game(
+                                                levels: index + 1,
+                                              ));
+                                        },
+                                        child: LevelsItem(
+                                          text: "${index + 1}",
+                                        )),
+                                itemCount: 10,
+                              ));
+                    },
+                  )),
+                  SizedBox(
+                    height: 32.h,
+                  ),
                   Image.asset(LocalImages.ads),
-                  SizedBox(height: 5.h,)
+                  SizedBox(
+                    height: 5.h,
+                  )
                 ],
               ),
             ),

@@ -7,14 +7,16 @@
  */
 
 import 'package:dino_solver/core/common/colors.dart';
+import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressBar extends StatefulWidget {
   final Color? bgColor;
   final Color? frColor;
   final Gradient? grColor;
-  final Duration duration;
+  final int duration;
   VoidCallback onFinish;
 
   ProgressBar(
@@ -35,9 +37,14 @@ class ProgressBarState extends State<ProgressBar>
   late Animation<double> animation;
   late AnimationController controller;
 
+  int _getDurationExtraByDifficult(){
+    final _difficult = context.read<UserRepository>().getDifficult();
+    return _difficult.when(easy: () => 3, medium: () => 5, hard: () => 7);
+  }
+
   @override
   void initState() {
-    controller = AnimationController(duration: widget.duration, vsync: this);
+    controller = AnimationController(duration: Duration(seconds: widget.duration - _getDurationExtraByDifficult()), vsync: this);
     animation = Tween<double>(begin: 1.0, end: 0.0).animate(controller)
       ..addStatusListener((status) {
         print(status);
@@ -51,6 +58,10 @@ class ProgressBarState extends State<ProgressBar>
   void start() {
     controller.stop();
     controller.forward(from: 0.0);
+  }
+
+  void stop() {
+    controller.stop();
   }
 
   @override

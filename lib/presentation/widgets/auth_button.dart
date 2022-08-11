@@ -6,6 +6,7 @@
  *
  */
 
+import 'package:dino_solver/core/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,12 +14,13 @@ class AuthButton extends StatelessWidget {
   VoidCallback action;
   String text;
   bool loading;
+  Color fillColor;
 
   AuthButton(
       {Key? key,
       required this.action,
       required this.text,
-      this.loading = false})
+      this.loading = false, required this.fillColor})
       : super(key: key);
 
   @override
@@ -32,18 +34,21 @@ class AuthButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
-              color: Colors.deepPurple,
+              color: fillColor,
               borderRadius: BorderRadius.circular(12.r)),
           child: Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  text,
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.sp),
+                Expanded(
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.sp),
+                  ),
                 ),
                 loading
                     ? SizedBox(

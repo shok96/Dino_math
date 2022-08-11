@@ -9,7 +9,9 @@
 import 'dart:async';
 
 import 'package:dino_solver/core/themes/base_theme.dart';
+import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
+import 'package:dino_solver/presentation/bloc/user/bloc_user.dart';
 import 'package:dino_solver/presentation/pages/splash/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -73,16 +75,18 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<AuthCubit>(create: (context) => di.sl<AuthCubit>()),
-          // BlocProvider<ConnectiveCubit>(
-          //     create: (context) => di.sl<ConnectiveCubit>()),
-          // BlocProvider<CubitBottomNav>(
-          //     create: (context) => di.sl<CubitBottomNav>()),
+          BlocProvider<BlocUser>(create: (context) => di.sl<BlocUser>()),
         ],
-        child: ScreenUtilInit(
-            designSize: Size(414, 896),
-            builder: (BuildContext context, Widget? child) => MaterialApp(
-                theme: themeData(context),
-                title: 'Flutter Test Demo',
-                home: Splash())));
+        child: MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider(create: (context) => di.sl<UserRepository>())
+          ],
+          child: ScreenUtilInit(
+              designSize: Size(414, 896),
+              builder: (BuildContext context, Widget? child) => MaterialApp(
+                  theme: themeData(context),
+                  title: 'Flutter Test Demo',
+                  home: Splash())),
+        ));
   }
 }

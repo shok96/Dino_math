@@ -48,9 +48,7 @@ dependencies:
   cached_network_image: ^3.2.1
   connectivity_plus: ^2.3.6
   form_field_validator: ^1.1.0
-
-  flutter_tex:
-    path: tex/
+  flutter_math_fork: ^0.6.3+1
 
 
   # The following adds the Cupertino Icons font to your application.

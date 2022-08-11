@@ -15,10 +15,25 @@ class Utils {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => child));
   }
 
+  static void routerPop(BuildContext context, dynamic result) {
+    Navigator.of(context).pop(result);
+  }
+
+  static Future routerScreenFuture(BuildContext context, Widget child) async{
+    return Navigator.of(context).push(MaterialPageRoute(builder: (context) => child));
+  }
+
   static void routerScreenDeleteStack(BuildContext context, Widget child) {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => child),
       (route) => false,
+    );
+  }
+
+  static void routerScreenDeleteDoPageStack(BuildContext context, Widget child, RoutePredicate predicate) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => child),
+          predicate,
     );
   }
 

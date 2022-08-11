@@ -5,3 +5,15 @@
  *  * Last modified 06.08.2022, 20:24
  *
  */
+
+import 'package:dino_solver/data/datasource/network/responseModel/MTaskResult.dart';
+import 'package:dino_solver/data/models/MGame.dart';
+import 'package:dino_solver/data/models/MUser.dart';
+import 'package:dino_solver/domain/repository/userRepository.dart';
+
+abstract class Repository{
+
+  UserRepository get userRepository;
+  Future<MTaskResult<List<MGame>>> getLevels(MUser user);
+
+}

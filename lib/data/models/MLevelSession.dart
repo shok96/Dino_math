@@ -21,6 +21,7 @@ class MLevelSession with _$MLevelSession {
     required MExample task,
     required int currentIndex,
     required int lengthExample,
+    required int currentLevel,
   }) = _MLevelSession;
 
 

@@ -1,4 +1,3 @@
-
 /*
  * *
  *  * Created by Kosyachenko Roman aka Roma on 07.08.2022, 22:50
@@ -7,17 +6,15 @@
  *
  */
 
-
 import 'package:dino_solver/data/models/MDifficult.dart';
-import 'package:dino_solver/data/models/MMath.dart';
+import 'package:dino_solver/data/models/MUser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class UCMathSolver {
+abstract class UserRepository{
 
+  void setUser(MUser user);
+  MUser getUser();
   void setDifficult(MDifficult difficult);
-  MMath genLevel1();
-  MMath genLevel2();
-  MMath genLevel3();
-  MMath genLevel4();
-  MMath genLevel5();
+  MDifficult getDifficult();
 
 }

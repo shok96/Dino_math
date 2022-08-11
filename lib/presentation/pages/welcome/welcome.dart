@@ -9,11 +9,15 @@
 import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
+import 'package:dino_solver/data/models/MDifficult.dart';
+import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:dino_solver/presentation/pages/difficult/difficult.dart';
 import 'package:dino_solver/presentation/pages/levels/levels.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import "package:dino_solver/di.dart" as di;
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);

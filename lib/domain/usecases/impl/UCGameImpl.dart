@@ -8,6 +8,7 @@
 
 import 'dart:math';
 
+import 'package:dino_solver/data/models/MDifficult.dart';
 import 'package:dino_solver/data/models/MExample.dart';
 import 'package:dino_solver/data/models/MLevelSession.dart';
 import 'package:dino_solver/data/models/MMath.dart';
@@ -21,11 +22,24 @@ class UCGameImpl extends UCGame {
 
   List<MMath> _listExampleWrong = <MMath>[];
 
+  int _currentLevel = 1;
+
   late MLevelSession _currentExample;
 
   int _counter = 0;
 
   UCGameImpl(this._mathSolver);
+
+  @override
+  List<MMath> nextLevel(MDifficult difficult) {
+    _currentLevel++;
+    return genLevel(_currentLevel, difficult);
+  }
+
+  @override
+  List<MMath> restartLevel(MDifficult difficult) {
+    return genLevel(_currentLevel, difficult);
+  }
 
   void _clear() {
     _listExample.clear();
@@ -33,11 +47,25 @@ class UCGameImpl extends UCGame {
     _counter = 0;
   }
 
+  
+  MMath _getLevelByQuery(int level){
+    switch(level){
+      case 1: return _mathSolver.genLevel1();
+      case 2: return _mathSolver.genLevel2();
+      case 3: return _mathSolver.genLevel3();
+      case 4: return _mathSolver.genLevel4();
+      case 5: return _mathSolver.genLevel5();
+      default: return _mathSolver.genLevel1();
+    }
+  }
+
   @override
-  List<MMath> genLevel() {
+  List<MMath> genLevel(int level, MDifficult difficult) {
+    _currentLevel = level;
     _clear();
+    _mathSolver.setDifficult(difficult);
     for (var i = 0; i < 10; i++) {
-      _listExample.add(_mathSolver.genLevel1());
+      _listExample.add(_getLevelByQuery(level));
     }
     _counter == _listExample.length;
     return _listExample;
@@ -74,6 +102,7 @@ class UCGameImpl extends UCGame {
       _counter++;
     }
     _currentExample = MLevelSession(
+      currentLevel: _currentLevel,
         task: _genExample(res),
         currentIndex: _currentCounter,
         lengthExample: _listExample.length);
@@ -106,4 +135,5 @@ class UCGameImpl extends UCGame {
   MLevelSession getCurrentExample() {
     return _currentExample;
   }
+
 }

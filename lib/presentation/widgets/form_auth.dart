@@ -75,7 +75,7 @@ class _FormAuthState extends State<FormAuth> {
             enabled: !sending,
             password: true,
             controller: widget.password,
-            hint: "password",
+            hint: "Пароль",
             valid: widget.passwordValidator,
           ),
           SizedBox(

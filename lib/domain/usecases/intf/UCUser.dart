@@ -9,17 +9,13 @@
 
 
 import 'package:dino_solver/data/models/MDifficult.dart';
+import 'package:dino_solver/data/models/MGame.dart';
 import 'package:dino_solver/data/models/MLevelSession.dart';
 import 'package:dino_solver/data/models/MMath.dart';
+import 'package:dino_solver/data/models/MUser.dart';
 
-abstract class UCGame {
+abstract class UCUser {
 
-  List<MMath> genLevel(int level, MDifficult difficult);
-  List<MMath> restartLevel(MDifficult difficult);
-  List<MMath> nextLevel(MDifficult difficult);
-  MLevelSession getExample();
-  MLevelSession getCurrentExample();
-  bool checkExample(MMath example, int answer);
-  List<MMath> getWrong();
+  void setUser(MUser user);
 
 }

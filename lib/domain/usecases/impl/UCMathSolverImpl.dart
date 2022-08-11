@@ -8,13 +8,24 @@
 
 import 'dart:math';
 
+import 'package:dino_solver/data/models/MDifficult.dart';
 import 'package:dino_solver/data/models/MMath.dart';
 import 'package:dino_solver/domain/usecases/intf/UCMathSolver.dart';
 
 class UCMathSolverImpl extends UCMathSolver {
   Random random = Random();
+  MDifficult _difficult = MDifficult.easy();
 
   UCMathSolverImpl();
+
+  @override
+  void setDifficult(MDifficult difficult) {
+    _difficult = difficult;
+  }
+
+  int _getDifficult(){
+    return _difficult.when(easy: () => 1, medium: () => 2, hard: () => 3);
+  }
 
   void _genSeed() {
     random = Random(DateTime.now().hashCode);
@@ -23,9 +34,10 @@ class UCMathSolverImpl extends UCMathSolver {
   @override
   MMath genLevel1() {
     _genSeed();
-    final complexity = 10 + 2 * 5;
-    final a = random.nextInt(complexity + 0);
-    final b = random.nextInt(complexity + 0);
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 1;
+    final a = random.nextInt(complexity + currentLevel);
+    final b = random.nextInt(complexity + currentLevel);
     final c = a + b;
     return MMath(question: "$a + $b", answer: c, complexity: complexity);
   }
@@ -33,9 +45,10 @@ class UCMathSolverImpl extends UCMathSolver {
   @override
   MMath genLevel2() {
     _genSeed();
-    final complexity = 10 + 2 * 5;
-    final a = random.nextInt(10 + 2 * 5 + 0);
-    final b = random.nextInt(10 + 2 * 5 + 0);
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 2;
+    final a = random.nextInt(complexity + currentLevel);
+    final b = random.nextInt(complexity + currentLevel);
     final c = a - b;
     return MMath(question: "$a - $b", answer: c, complexity: complexity);
   }
@@ -43,9 +56,10 @@ class UCMathSolverImpl extends UCMathSolver {
   @override
   MMath genLevel3() {
     _genSeed();
-    final complexity = 10 + 2 * 5;
-    final a = random.nextInt(10 + 2 * 5 + 0);
-    final b = random.nextInt(10 + 2 * 5) + 1;
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 3;
+    final a = random.nextInt(complexity + currentLevel);
+    final b = random.nextInt(complexity) + 1;
     final c = a * b;
     return MMath(question: "$a * $b", answer: c, complexity: complexity);
   }
@@ -53,22 +67,25 @@ class UCMathSolverImpl extends UCMathSolver {
   @override
   MMath genLevel4() {
     _genSeed();
-    final complexity = 10 + 2 * 5;
-    var a = random.nextInt(10 + 2 * 5 + 0);
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 4;
+    var a = random.nextInt(complexity + currentLevel);
     final b = [2, 4, 6, 8];
     final mno = b[random.nextInt(b.length)];
     a = a * mno;
     final c = a / mno;
-    return MMath(question: "$a / $b", answer: c.toInt(), complexity: complexity);
+    print("$a / $mno");
+    return MMath(question: "\\frac {$a} {$mno}", answer: c.toInt(), complexity: complexity);
   }
 
   @override
   MMath genLevel5() {
     _genSeed();
-    final complexity = 10 + 2 * 5;
-    final a = random.nextInt(10 + 2 * 5 + 0);
-    final b = random.nextInt(10 + 2 * 5 + 0);
-    final d = random.nextInt(10 + 2 * 5 + 0);
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 5;
+    final a = random.nextInt(complexity + currentLevel);
+    final b = random.nextInt(complexity + currentLevel);
+    final d = random.nextInt(complexity + currentLevel);
     switch (random.nextInt(2)) {
       case 0:
         final c = a - b + d;
@@ -81,4 +98,5 @@ class UCMathSolverImpl extends UCMathSolver {
         return MMath(question: "$a - $b + $d", answer: c, complexity: complexity);
     }
   }
+
 }

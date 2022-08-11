@@ -10,6 +10,7 @@ import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
 import 'package:dino_solver/data/models/MMath.dart';
+import 'package:dino_solver/data/models/MRouteGame.dart';
 import 'package:dino_solver/presentation/pages/game/game.dart';
 import 'package:dino_solver/presentation/pages/how/how.dart';
 import 'package:dino_solver/presentation/pages/pay/pay.dart';
@@ -18,9 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Lose extends StatelessWidget {
-  List<MMath> wrongExample;
-
-  Lose({Key? key, required this.wrongExample}) : super(key: key);
+  Lose({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +98,7 @@ class Lose extends StatelessWidget {
                     CustomButton(
                         text: "Начать заново",
                         action: () {
-                          Utils.routerScreen(context, How());
+                          Utils.routerPop(context, MRouteGame.restart());
                         },
                         color: ConstColors.lightGrown,
                         color_text: ConstColors.lightGrownBorder),
