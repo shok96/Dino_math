@@ -22,11 +22,11 @@ class RateLevel extends StatelessWidget{
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Image.asset(
-          wrong.length < 7 ? LocalImages.star_on :LocalImages.star_off,
+          wrong.length <= 7 ? LocalImages.star_on :LocalImages.star_off,
           scale: 2,
         ),
         Image.asset(
-          wrong.length < 3 ? LocalImages.star_on :LocalImages.star_off,
+          wrong.length <= 3 ? LocalImages.star_on :LocalImages.star_off,
           scale: 1,
         ),
         Image.asset(

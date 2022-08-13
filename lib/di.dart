@@ -45,7 +45,7 @@ Future<void> init() async {
   //  sl.registerFactory(() => BlocPhoto(sl()));
   //
   sl.registerLazySingleton<UCMathSolver>(() => UCMathSolverImpl());
-  sl.registerLazySingleton<UCGame>(() => UCGameImpl(sl()));
+  sl.registerLazySingleton<UCGame>(() => UCGameImpl(sl(), sl()));
   sl.registerLazySingleton<UCUser>(() => UCUserImpl(sl()));
   sl.registerLazySingleton<UCLevel>(() => UCLevelImpl(sl()));
   //  sl.registerLazySingleton<UCPost>(() => UCPostImpl(sl()));

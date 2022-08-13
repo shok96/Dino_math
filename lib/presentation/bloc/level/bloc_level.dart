@@ -27,9 +27,14 @@ class BlocLevel extends Bloc<BlocLevelEvent, BlocLevelState> {
      await event.when(refresh: () async{
         final levels = await level.getLevels();
         if(levels.isSuccessfull){
-          emit(BlocLevelState.levels(levels.body!));
+          emit(BlocLevelState.levels(levels.body!.length > 0 ? [...levels.body!, MGame(level: levels.body!.length+1,  star: 0, user_id: 1)] : [MGame(level: 1,  star: 0, user_id: 1)]));
         }
-      }
+      }, save: (MGame mGame) async{
+        final result = await level.saveLevels(mGame);
+        if(result.isSuccessfull){
+          add(BlocLevelEvent.refresh());
+        }
+     }
       );
     });
   }
@@ -39,6 +44,8 @@ class BlocLevel extends Bloc<BlocLevelEvent, BlocLevelState> {
 class BlocLevelEvent with _$BlocLevelEvent {
   const factory BlocLevelEvent.refresh() =
       _RefreshEvent;
+  const factory BlocLevelEvent.save(MGame mGame) =
+  _SaveEvent;
 }
 
 @freezed

@@ -17,5 +17,6 @@ import 'package:dino_solver/data/models/MMath.dart';
 abstract class UCLevel {
 
   Future<MTaskResult<List<MGame>>> getLevels();
+  Future<MTaskResult<int>> saveLevels(MGame mGame);
 
 }

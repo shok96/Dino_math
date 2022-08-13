@@ -16,6 +16,7 @@ import 'db_controller.dart';
 
 abstract class CacheDataSource {
   Future<MTaskResult<List<MGame>>> getGame(MUser user);
+  Future<MTaskResult<MGame>> getGameById(int? id);
 
   Future<MTaskResult<int>> insertMGame(MGame mGame);
 
@@ -43,14 +44,45 @@ class CacheDataSourceImpl implements CacheDataSource {
 
   @override
   Future<MTaskResult<int>> insertMGame(MGame mGame) async {
+
+    final getBackup = await getGameById(mGame.id);
+
+    var star = 0;
+
+    if(getBackup.isSuccessfull){
+      if(getBackup.body!.star <= mGame.star){
+        star = mGame.star;
+      }
+      else{
+        star = getBackup.body!.star;
+      }
+    }
+    else{
+      star = mGame.star;
+    }
+
     return upsertObject<MGame, EGameCompanion>(
         mGame,
         _db.store.eGame,
         (element) => EGameCompanion.insert(
             user_id: element.user_id,
             level: element.level,
-            star: element.star,
+            star: star,
             id: Value(element.id)));
+  }
+
+  @override
+  Future<MTaskResult<MGame>> getGameById(int? id) async{
+    var dbData =
+        await _db.asyncResult((_db.store.select(_db.store.eGame)..where((tbl) => tbl.id.equals(id))).getSingleOrNull());
+
+    return getObjects<MGame, DBEGame>(
+        dbData,
+            (element) => MGame(
+            id: element.id ?? 0,
+            level: element.level,
+            user_id: element.user_id,
+            star: element.star));
   }
 
   // @override
@@ -492,4 +524,6 @@ class CacheDataSourceImpl implements CacheDataSource {
     }
     return data;
   }
+
+
 }

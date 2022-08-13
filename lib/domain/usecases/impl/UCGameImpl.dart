@@ -10,25 +10,30 @@ import 'dart:math';
 
 import 'package:dino_solver/data/models/MDifficult.dart';
 import 'package:dino_solver/data/models/MExample.dart';
+import 'package:dino_solver/data/models/MGame.dart';
 import 'package:dino_solver/data/models/MLevelSession.dart';
 import 'package:dino_solver/data/models/MMath.dart';
+import 'package:dino_solver/domain/repository/repository.dart';
 import 'package:dino_solver/domain/usecases/intf/UCGame.dart';
 import 'package:dino_solver/domain/usecases/intf/UCMathSolver.dart';
 
 class UCGameImpl extends UCGame {
   UCMathSolver _mathSolver;
 
+  late Repository _repository;
+
   List<MMath> _listExample = <MMath>[];
 
   List<MMath> _listExampleWrong = <MMath>[];
 
   int _currentLevel = 1;
+  int? _id_level = null;
 
   late MLevelSession _currentExample;
 
   int _counter = 0;
 
-  UCGameImpl(this._mathSolver);
+  UCGameImpl(this._mathSolver, this._repository);
 
   @override
   List<MMath> nextLevel(MDifficult difficult) {
@@ -42,27 +47,36 @@ class UCGameImpl extends UCGame {
   }
 
   void _clear() {
+    if (_id_level != null) _id_level = null;
     _listExample.clear();
     _listExampleWrong.clear();
     _counter = 0;
   }
 
-  
-  MMath _getLevelByQuery(int level){
-    switch(level){
-      case 1: return _mathSolver.genLevel1();
-      case 2: return _mathSolver.genLevel2();
-      case 3: return _mathSolver.genLevel3();
-      case 4: return _mathSolver.genLevel4();
-      case 5: return _mathSolver.genLevel5();
-      default: return _mathSolver.genLevel1();
+  MMath _getLevelByQuery(int level) {
+    switch (level) {
+      case 1:
+        return _mathSolver.genLevel1();
+      case 2:
+        return _mathSolver.genLevel2();
+      case 3:
+        return _mathSolver.genLevel3();
+      case 4:
+        return _mathSolver.genLevel4();
+      case 5:
+        return _mathSolver.genLevel5();
+      default:
+        return _mathSolver.genLevel1();
     }
   }
 
   @override
-  List<MMath> genLevel(int level, MDifficult difficult) {
+  List<MMath> genLevel(int level, MDifficult difficult, {int? id}) {
     _currentLevel = level;
     _clear();
+    if (id != null) {
+      _id_level = id;
+    }
     _mathSolver.setDifficult(difficult);
     for (var i = 0; i < 10; i++) {
       _listExample.add(_getLevelByQuery(level));
@@ -102,7 +116,7 @@ class UCGameImpl extends UCGame {
       _counter++;
     }
     _currentExample = MLevelSession(
-      currentLevel: _currentLevel,
+        currentLevel: _currentLevel,
         task: _genExample(res),
         currentIndex: _currentCounter,
         lengthExample: _listExample.length);
@@ -115,12 +129,10 @@ class UCGameImpl extends UCGame {
 
   bool _hasExample() => ((_counter) < _listExample.length);
 
-
-
   @override
   bool checkExample(MMath example, int answer) {
     final _check = _checkAnswer(answer, example.answer);
-    if(!_check){
+    if (!_check) {
       _listExampleWrong.add(example);
     }
     return _hasExample();
@@ -128,7 +140,7 @@ class UCGameImpl extends UCGame {
 
   @override
   List<MMath> getWrong() {
-   return _listExampleWrong;
+    return _listExampleWrong;
   }
 
   @override
@@ -136,4 +148,30 @@ class UCGameImpl extends UCGame {
     return _currentExample;
   }
 
+  int _calcStars() {
+    if (_listExampleWrong.length <= 0)
+      return 3;
+    else if (_listExampleWrong.length <= 3)
+      return 2;
+    else if (_listExampleWrong.length <= 7)
+      return 1;
+    else
+      return 0;
+  }
+
+  @override
+  MGame getEndGame() {
+    return MGame(
+        id: _id_level,
+        level: _currentLevel,
+        star: _calcStars(),
+        user_id: _repository.userRepository.getUser().id);
+  }
+
+  @override
+  void setIdLevel(int? id) {
+    if (id != null) {
+      _id_level = id;
+    }
+  }
 }

@@ -9,10 +9,12 @@
 import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
+import 'package:dino_solver/data/models/MGame.dart';
 import 'package:dino_solver/data/models/MRouteGame.dart';
 import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:dino_solver/domain/usecases/intf/UCGame.dart';
 import 'package:dino_solver/presentation/bloc/game/bloc_game.dart';
+import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/pages/how/how.dart';
 import 'package:dino_solver/presentation/pages/lose/lose.dart';
 import 'package:dino_solver/presentation/pages/win/win.dart';
@@ -28,15 +30,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dino_solver/di.dart' as di;
 
 class Game extends StatelessWidget {
+  int? id;
   int levels;
 
-  Game({Key? key, required this.levels}) : super(key: key);
+  Game({Key? key, required this.levels, this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProxy<BlocGame>(
         bloc: (context, bloc) => BlocGame(di.sl<UCGame>()),
         child: _GameScreen(
+          id:id,
           levels: levels,
         ));
   }
@@ -44,8 +48,9 @@ class Game extends StatelessWidget {
 
 class _GameScreen extends StatefulWidget {
   int levels;
+  int? id;
 
-  _GameScreen({Key? key, required this.levels}) : super(key: key);
+  _GameScreen({Key? key, required this.levels, this.id}) : super(key: key);
 
   @override
   State<_GameScreen> createState() => _GameState();
@@ -55,15 +60,17 @@ class _GameState extends State<_GameScreen> {
   GlobalKey<ProgressBarState> _globalKeyProgressBar = GlobalKey();
 
   late BlocGame blocGame;
+  late BlocLevel blocLevel;
   late UserRepository userRepository;
 
   @override
   void didChangeDependencies() {
     blocGame = context.read<BlocGame>();
+    blocLevel = context.read<BlocLevel>();
     userRepository = context.read<UserRepository>();
     super.didChangeDependencies();
     blocGame.add(
-        BlocGameEvent.startLevel(widget.levels, userRepository.getDifficult()));
+        BlocGameEvent.startLevel(widget.levels, userRepository.getDifficult(), id: widget.id));
     blocGame.add(BlocGameEvent.nextExample());
     blocGame.stream.listen((event) {
       event.maybeWhen(
@@ -71,8 +78,10 @@ class _GameState extends State<_GameScreen> {
           startLevel: () =>
               Future.delayed(Duration(seconds: 1),
                       () => _globalKeyProgressBar.currentState?.start()),
-          gameOver: (data, time) {
+          gameOver: (data, time, gameResult) {
             _globalKeyProgressBar.currentState?.stop();
+            if(gameResult.star > 0)
+            blocLevel.add(BlocLevelEvent.save(gameResult));
             Utils
                 .routerScreenFuture(
                 context,
@@ -193,7 +202,7 @@ class _GameState extends State<_GameScreen> {
               ),
               ProgressBar(
                 key: _globalKeyProgressBar,
-                duration: 20,
+                duration: 40,
                 frColor: ConstColors.green,
                 onFinish: () {
                   blocGame.add(BlocGameEvent.gameOver(time: true));

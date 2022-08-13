@@ -32,4 +32,9 @@ class UCLevelImpl extends UCLevel {
     return _repository.getLevels(_repository.userRepository.getUser());
   }
 
+  @override
+  Future<MTaskResult<int>> saveLevels(MGame mGame) {
+    return _repository.saveLevels(mGame);
+  }
+
 }

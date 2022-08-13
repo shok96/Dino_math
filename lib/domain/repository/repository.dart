@@ -15,5 +15,6 @@ abstract class Repository{
 
   UserRepository get userRepository;
   Future<MTaskResult<List<MGame>>> getLevels(MUser user);
+  Future<MTaskResult<int>> saveLevels(MGame mGame);
 
 }

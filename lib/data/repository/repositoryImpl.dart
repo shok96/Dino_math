@@ -31,4 +31,9 @@ class RepositoryImpl extends Repository{
     return _cacheDataSource.getGame(user);
   }
 
+  @override
+  Future<MTaskResult<int>> saveLevels(MGame mGame) {
+    return _cacheDataSource.insertMGame(mGame);
+  }
+
 }

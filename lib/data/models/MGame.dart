@@ -17,7 +17,7 @@ class MGame with _$MGame {
 
   const factory MGame({
     required int level,
-    required int id,
+    int? id,
     required int star,
     required int user_id
   }) = _MGame;

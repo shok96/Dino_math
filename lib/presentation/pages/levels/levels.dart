@@ -9,6 +9,7 @@
 import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
+import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:dino_solver/domain/usecases/intf/UCLevel.dart';
 import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/pages/game/game.dart';
@@ -19,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dino_solver/di.dart' as di;
+import 'package:collection/collection.dart';
 
 class Levels extends StatelessWidget {
   Levels({Key? key}) : super(key: key);
@@ -26,13 +28,21 @@ class Levels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProxy<BlocLevel>(
-        bloc: (context, bloc) => BlocLevel(di.sl<UCLevel>())..add(BlocLevelEvent.refresh()),
+        bloc: (context, bloc) =>
+            BlocLevel(di.sl<UCLevel>())..add(BlocLevelEvent.refresh()),
         child: _LevelsScreen());
   }
 }
 
 class _LevelsScreen extends StatelessWidget {
   const _LevelsScreen({Key? key}) : super(key: key);
+
+  String getDifficult(BuildContext context) {
+    return context.read<UserRepository>().getDifficult().when(
+        easy: () => "Школьник",
+        medium: () => "Студент",
+        hard: () => "Профессор");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,14 +84,26 @@ class _LevelsScreen extends StatelessWidget {
                       SizedBox(
                         width: 20.w,
                       ),
-                      Text("0")
+                      BlocBuilder<BlocLevel, BlocLevelState>(
+                        builder: (context, state) {
+                          return state.when(
+                              idle: () => Text("0"),
+                              levels: (data) {
+                                int count = data.fold(
+                                    0,
+                                    (previousValue, element) =>
+                                        previousValue + element.star);
+                                return Text("$count");
+                              });
+                        },
+                      )
                     ],
                   ),
                   SizedBox(
                     height: 32.h,
                   ),
                   Text(
-                    "Шакальник",
+                    getDifficult(context),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -98,18 +120,23 @@ class _LevelsScreen extends StatelessWidget {
                                         childAspectRatio: 4 / 2,
                                         crossAxisSpacing: 20.r,
                                         mainAxisSpacing: 20.r),
-                                itemBuilder: (context, index) =>
-                                    GestureDetector(
-                                        onTap: () {
-                                          Utils.routerScreen(
-                                              context,
-                                              Game(
-                                                levels: index + 1,
-                                              ));
-                                        },
-                                        child: LevelsItem(
-                                          text: "${index + 1}",
-                                        )),
+                                itemBuilder: (context, index) {
+                                  final level = data.firstWhereOrNull(
+                                      (element) => element.level == index + 1);
+                                  if (level != null) {
+                                    return LevelsItem(
+                                        id: level.id,
+                                        star: level.star,
+                                        text: "${index + 1}",
+                                        index: index + 1);
+                                  } else {
+                                    return LevelsItem(
+                                      text: "${index + 1}",
+                                      index: index + 1,
+                                      active: false,
+                                    );
+                                  }
+                                },
                                 itemCount: 10,
                               ));
                     },

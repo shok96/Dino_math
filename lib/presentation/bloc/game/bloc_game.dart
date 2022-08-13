@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'package:dino_solver/data/models/MDifficult.dart';
+import 'package:dino_solver/data/models/MGame.dart';
 import 'package:dino_solver/data/models/MLevelSession.dart';
 import 'package:dino_solver/data/models/MMath.dart';
 import 'package:dino_solver/domain/usecases/intf/UCGame.dart';
@@ -23,8 +24,8 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
   BlocGame(this._game) : super(BlocGameState.idle()) {
     on<BlocGameEvent>((event, emit) {
       event.when(
-        startLevel: (level, difficult) {
-          _game.genLevel(level, difficult);
+        startLevel: (level, difficult, id) {
+          _game.genLevel(level, difficult, id: id);
           emit(BlocGameState.startLevel());
         },
         nextExample: () {
@@ -34,10 +35,10 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
           if (_game.checkExample(example, answer))
             emit(BlocGameState.example(_game.getExample()));
           else
-            emit(BlocGameState.gameOver(_game.getWrong(), false));
+            emit(BlocGameState.gameOver(_game.getWrong(), false, _game.getEndGame()));
         },
         gameOver: (time) =>
-            emit(BlocGameState.gameOver(_game.getWrong(), time)),
+            emit(BlocGameState.gameOver(_game.getWrong(), time, _game.getEndGame())),
         showHint: () => emit(BlocGameState.hint(_game.getCurrentExample())),
         restartLevel: (difficult) {
           _game.restartLevel(difficult);
@@ -56,7 +57,7 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
 
 @freezed
 class BlocGameEvent with _$BlocGameEvent {
-  const factory BlocGameEvent.startLevel(int level, MDifficult difficult) =
+  const factory BlocGameEvent.startLevel(int level, MDifficult difficult, {int? id}) =
       _StartLevelEvent;
 
   const factory BlocGameEvent.nextLevel(MDifficult difficult) = _NextLevelEvent;
@@ -85,6 +86,6 @@ class BlocGameState with _$BlocGameState {
 
   const factory BlocGameState.hint(MLevelSession example) = _HintState;
 
-  const factory BlocGameState.gameOver(List<MMath> wrongExample, bool time) =
+  const factory BlocGameState.gameOver(List<MMath> wrongExample, bool time, MGame resultGame) =
       _GameOverState;
 }
