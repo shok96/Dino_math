@@ -63,3 +63,12 @@ _$_Cache _$$_CacheFromJson(Map<String, dynamic> json) => _$_Cache(
 Map<String, dynamic> _$$_CacheToJson(_$_Cache instance) => <String, dynamic>{
       'runtimeType': instance.$type,
     };
+
+_$_FireStore _$$_FireStoreFromJson(Map<String, dynamic> json) => _$_FireStore(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$_FireStoreToJson(_$_FireStore instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };

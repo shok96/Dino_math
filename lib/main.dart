@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:dino_solver/core/themes/base_theme.dart';
 import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
+import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/bloc/user/bloc_user.dart';
 import 'package:dino_solver/presentation/pages/splash/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<AuthCubit>(create: (context) => di.sl<AuthCubit>()),
           BlocProvider<BlocUser>(create: (context) => di.sl<BlocUser>()),
+          BlocProvider<BlocLevel>(create: (context) => di.sl<BlocLevel>()),
         ],
         child: MultiRepositoryProvider(
           providers: [
@@ -85,7 +87,7 @@ class MyApp extends StatelessWidget {
               designSize: Size(414, 896),
               builder: (BuildContext context, Widget? child) => MaterialApp(
                   theme: themeData(context),
-                  title: 'Flutter Test Demo',
+                  title: 'Математика с Дино',
                   home: Splash())),
         ));
   }

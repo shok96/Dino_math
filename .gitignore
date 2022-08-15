@@ -45,6 +45,10 @@ app.*.map.json
 *.freezed.dart
 *.g.dart
 
+#android release
+/android/key.properties
+/android/app/*.jks
+
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile

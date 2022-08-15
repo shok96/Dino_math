@@ -12,7 +12,9 @@ import 'package:dino_solver/core/common/utils.dart';
 import 'package:dino_solver/data/models/MDifficult.dart';
 import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:dino_solver/presentation/pages/levels/levels.dart';
+import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
+import 'package:dino_solver/presentation/widgets/logout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,9 +34,17 @@ class Difficult extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            LocalImages.fon,
-            fit: BoxFit.cover,
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              SizedBox(
+                  width: double.infinity,
+                  child:      Image.asset(
+                    LocalImages.fon,
+                    fit: BoxFit.cover,
+                  ),),
+              Positioned(right:0, top: 50, child: LogoutWidget()),
+            ],
           ),
           Positioned(
             child: Image.asset(LocalImages.cloaks8),
@@ -81,7 +91,7 @@ class Difficult extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Image.asset(LocalImages.ads),
+                  Ads(),
                   SizedBox(height: 5.h,)
                 ],
               ),

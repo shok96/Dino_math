@@ -23,34 +23,41 @@ class BlocLevel extends Bloc<BlocLevelEvent, BlocLevelState> {
   UCLevel level;
 
   BlocLevel(this.level) : super(BlocLevelState.idle()) {
-    on<BlocLevelEvent>((event, emit) async{
-     await event.when(refresh: () async{
+    on<BlocLevelEvent>((event, emit) async {
+      await event.when(refresh: () async {
         final levels = await level.getLevels();
-        if(levels.isSuccessfull){
-          emit(BlocLevelState.levels(levels.body!.length > 0 ? [...levels.body!, MGame(level: levels.body!.length+1,  star: 0, user_id: 1)] : [MGame(level: 1,  star: 0, user_id: 1)]));
+        if (levels.isSuccessfull) {
+          emit(BlocLevelState.levels(levels.body!.length > 0
+              ? [
+                  ...levels.body!,
+                  MGame(level: levels.body!.length + 1, star: 0, user_id: 1)
+                ]
+              : [MGame(level: 1, star: 0, user_id: 1)]));
         }
-      }, save: (MGame mGame) async{
+      }, save: (MGame mGame) async {
         final result = await level.saveLevels(mGame);
-        if(result.isSuccessfull){
+        if (result.isSuccessfull) {
           add(BlocLevelEvent.refresh());
         }
-     }
-      );
+      }, sync: () {
+        level.syncFireSotre();
+      });
     });
   }
 }
 
 @freezed
 class BlocLevelEvent with _$BlocLevelEvent {
-  const factory BlocLevelEvent.refresh() =
-      _RefreshEvent;
-  const factory BlocLevelEvent.save(MGame mGame) =
-  _SaveEvent;
+  const factory BlocLevelEvent.refresh() = _RefreshEvent;
+
+  const factory BlocLevelEvent.sync() = _SyncEvent;
+
+  const factory BlocLevelEvent.save(MGame mGame) = _SaveEvent;
 }
 
 @freezed
 class BlocLevelState with _$BlocLevelState {
   const factory BlocLevelState.idle() = _IdleState;
-  const factory BlocLevelState.levels(List<MGame> levels) = _LevelsState;
 
+  const factory BlocLevelState.levels(List<MGame> levels) = _LevelsState;
 }

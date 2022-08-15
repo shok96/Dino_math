@@ -9,6 +9,8 @@
 import 'package:dino_solver/data/datasource/db/CacheDataSource.dart';
 import 'package:dino_solver/data/datasource/db/DB.dart';
 import 'package:dino_solver/data/datasource/db/db_controller.dart';
+import 'package:dino_solver/data/datasource/firestore/FireStoreDataSource.dart';
+import 'package:dino_solver/data/datasource/firestore/firestore_controller.dart';
 import 'package:dino_solver/data/datasource/store/StoreUser.dart';
 import 'package:dino_solver/data/repository/repositoryImpl.dart';
 import 'package:dino_solver/data/repository/userRepositoryImpl.dart';
@@ -32,7 +34,7 @@ import 'package:dio/dio.dart' hide Headers;
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  sl.registerFactory(() => AuthCubit(sl()));
+  sl.registerFactory(() => AuthCubit(sl(), sl()));
   //  sl.registerFactory(() => ConnectiveCubit());
   //  sl.registerFactory(() => CubitBottomNav());
   //
@@ -53,11 +55,12 @@ Future<void> init() async {
   //  sl.registerLazySingleton<UCAlbum>(() => UCAlbumImpl(sl()));
   //  sl.registerLazySingleton<UCPhoto>(() => UCPhotoImpl(sl()));
   //
-  sl.registerLazySingleton<Repository>(() => RepositoryImpl(userRepository: sl(),  cacheDataSource: sl()));
+  sl.registerLazySingleton<Repository>(() => RepositoryImpl(userRepository: sl(),  cacheDataSource: sl(), firestoreDataSource: sl()));
   sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(sl()));
   //
   //  sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(sl()));
    sl.registerLazySingleton<CacheDataSource>(() => CacheDataSourceImpl(sl()));
+   sl.registerLazySingleton<FireStoreDataSource>(() => FireStoreDataSourceImpl(sl()));
   //
   //
   //
@@ -69,6 +72,7 @@ Future<void> init() async {
   // //
   //  sl.registerLazySingleton(() => NetController(sl()));
    sl.registerLazySingleton(() => DBController(sl()));
+   sl.registerLazySingleton(() => FireStoreController());
   // //
   //
    final database = AppDatabase();

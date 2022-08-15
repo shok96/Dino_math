@@ -13,9 +13,11 @@ import 'package:dino_solver/domain/repository/userRepository.dart';
 import 'package:dino_solver/domain/usecases/intf/UCLevel.dart';
 import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/pages/game/game.dart';
+import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/levels_item.dart';
+import 'package:dino_solver/presentation/widgets/logout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,21 +29,29 @@ class Levels extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProxy<BlocLevel>(
-        bloc: (context, bloc) =>
-            BlocLevel(di.sl<UCLevel>())..add(BlocLevelEvent.refresh()),
-        child: _LevelsScreen());
+    return _LevelsScreen();
   }
 }
 
-class _LevelsScreen extends StatelessWidget {
+class _LevelsScreen extends StatefulWidget {
   const _LevelsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<_LevelsScreen> createState() => _LevelsScreenState();
+}
+
+class _LevelsScreenState extends State<_LevelsScreen> {
   String getDifficult(BuildContext context) {
     return context.read<UserRepository>().getDifficult().when(
         easy: () => "Школьник",
         medium: () => "Студент",
         hard: () => "Профессор");
+  }
+
+  @override
+  void initState() {
+    context.read<BlocLevel>().add(BlocLevelEvent.refresh());
+    super.initState();
   }
 
   @override
@@ -75,28 +85,37 @@ class _LevelsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
+                  Stack(
+                    clipBehavior: Clip.none,
                     children: [
-                      Image.asset(
-                        LocalImages.star_on,
-                        scale: 2,
-                      ),
                       SizedBox(
-                        width: 20.w,
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              LocalImages.star_on,
+                              scale: 2,
+                            ),
+                            SizedBox(
+                              width: 20.w,
+                            ),
+                            BlocBuilder<BlocLevel, BlocLevelState>(
+                              builder: (context, state) {
+                                return state.when(
+                                    idle: () => Text("0"),
+                                    levels: (data) {
+                                      int count = data.fold(
+                                          0,
+                                          (previousValue, element) =>
+                                              previousValue + element.star);
+                                      return Text("$count");
+                                    });
+                              },
+                            )
+                          ],
+                        ),
                       ),
-                      BlocBuilder<BlocLevel, BlocLevelState>(
-                        builder: (context, state) {
-                          return state.when(
-                              idle: () => Text("0"),
-                              levels: (data) {
-                                int count = data.fold(
-                                    0,
-                                    (previousValue, element) =>
-                                        previousValue + element.star);
-                                return Text("$count");
-                              });
-                        },
-                      )
+                      Positioned(right: 0, child: LogoutWidget()),
                     ],
                   ),
                   SizedBox(
@@ -144,7 +163,7 @@ class _LevelsScreen extends StatelessWidget {
                   SizedBox(
                     height: 32.h,
                   ),
-                  Image.asset(LocalImages.ads),
+                  Ads(),
                   SizedBox(
                     height: 5.h,
                   )

@@ -96,6 +96,12 @@ class MTaskResult<T> with _$MTaskResult<T> {
   factory MTaskResult.createBlankCache(T data, bool isSuccessfull) =>
       MTaskResult<T>(isSuccessfull: isSuccessfull, body: data, modeSourceData: ModeSourceData.cache());
 
+  factory MTaskResult.createBlankFireStore(T data, bool isSuccessfull) =>
+      MTaskResult<T>(isSuccessfull: isSuccessfull, body: data, modeSourceData: ModeSourceData.firestore());
+
+  factory MTaskResult.createEmptyData(bool isSuccessfull, ModeSourceData modeSourceData) =>
+      MTaskResult<T>(isSuccessfull: isSuccessfull, modeSourceData: modeSourceData);
+
   factory MTaskResult.createFailure({@Default("null blank") String? error}) =>
       MTaskResult<T>(isSuccessfull: false, error: error);
 
@@ -104,6 +110,9 @@ class MTaskResult<T> with _$MTaskResult<T> {
 
   factory MTaskResult.createFailureCache({@Default("null blank") String? error}) =>
       MTaskResult<T>(isSuccessfull: false, error: error, modeSourceData: ModeSourceData.cache());
+
+  factory MTaskResult.createFailureFireStore({@Default("null blank") String? error}) =>
+      MTaskResult<T>(isSuccessfull: false, error: error, modeSourceData: ModeSourceData.firestore());
 
   factory MTaskResult.ModeDataSource(
           MTaskResult base, ModeSourceData modeSourceData) =>
@@ -125,6 +134,8 @@ class ModeSourceData with _$ModeSourceData {
   const factory ModeSourceData.network() = _Network;
 
   const factory ModeSourceData.cache() = _Cache;
+
+  const factory ModeSourceData.firestore() = _FireStore;
 
   factory ModeSourceData.fromJson(Map<String, dynamic> json) => _$ModeSourceDataFromJson(json);
 }

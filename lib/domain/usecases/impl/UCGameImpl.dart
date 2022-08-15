@@ -33,7 +33,9 @@ class UCGameImpl extends UCGame {
 
   int _counter = 0;
 
-  UCGameImpl(this._mathSolver, this._repository);
+  UCGameImpl(this._mathSolver, this._repository){
+    print(1);
+  }
 
   @override
   List<MMath> nextLevel(MDifficult difficult) {
@@ -47,7 +49,7 @@ class UCGameImpl extends UCGame {
   }
 
   void _clear() {
-    if (_id_level != null) _id_level = null;
+    //if (_id_level != null) _id_level = null;
     _listExample.clear();
     _listExampleWrong.clear();
     _counter = 0;

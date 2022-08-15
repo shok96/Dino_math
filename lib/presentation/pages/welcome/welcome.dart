@@ -11,16 +11,42 @@ import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
 import 'package:dino_solver/data/models/MDifficult.dart';
 import 'package:dino_solver/domain/repository/userRepository.dart';
+import 'package:dino_solver/domain/usecases/intf/UCLevel.dart';
+import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/pages/difficult/difficult.dart';
 import 'package:dino_solver/presentation/pages/levels/levels.dart';
+import 'package:dino_solver/presentation/widgets/ads.dart';
+import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
+import 'package:dino_solver/presentation/widgets/logout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:dino_solver/di.dart" as di;
 
 class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+  Welcome({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _WelcomeScreen();
+  }
+}
+
+class _WelcomeScreen extends StatefulWidget {
+  const _WelcomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<_WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<_WelcomeScreen> {
+
+  @override
+  void initState() {
+    context.read<BlocLevel>().add(BlocLevelEvent.sync());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +79,15 @@ class Welcome extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Привет", style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red),),
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SizedBox(
+                          width: double.infinity,
+                          child: Text("Привет", style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red), textAlign: TextAlign.center,)),
+                      Positioned(right:0, child: LogoutWidget()),
+                    ],
+                  ),
                   SizedBox(height: 32.h,),
                   Text("Прокачай свой мозг, решая задачки", textAlign: TextAlign.center),
                   Spacer(),
@@ -61,7 +95,7 @@ class Welcome extends StatelessWidget {
                     Utils.routerScreen(context, Difficult());
                   }, color: ConstColors.red,),
                   Spacer(),
-                  Image.asset(LocalImages.ads),
+                  Ads(),
                   SizedBox(height: 5.h,)
                 ],
               ),

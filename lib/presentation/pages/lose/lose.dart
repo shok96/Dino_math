@@ -14,6 +14,7 @@ import 'package:dino_solver/data/models/MRouteGame.dart';
 import 'package:dino_solver/presentation/pages/game/game.dart';
 import 'package:dino_solver/presentation/pages/how/how.dart';
 import 'package:dino_solver/presentation/pages/pay/pay.dart';
+import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -109,11 +110,7 @@ class Lose extends StatelessWidget {
                           color: ConstColors.lightGrown,
                           color_text: ConstColors.lightGrownBorder),
                       SizedBox(height: 32.h,),
-                      GestureDetector(
-                          onTap: (){
-                            Utils.routerScreen(context, Pay());
-                          },
-                          child: Image.asset(LocalImages.ads)),
+                      Ads(),
                       SizedBox(height: 5.h,)
                     ],
                   ),

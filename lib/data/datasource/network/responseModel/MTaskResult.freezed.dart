@@ -295,6 +295,8 @@ ModeSourceData _$ModeSourceDataFromJson(Map<String, dynamic> json) {
       return _Network.fromJson(json);
     case 'cache':
       return _Cache.fromJson(json);
+    case 'firestore':
+      return _FireStore.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'runtimeType', 'ModeSourceData',
@@ -308,18 +310,21 @@ mixin _$ModeSourceData {
   TResult when<TResult extends Object?>({
     required TResult Function() network,
     required TResult Function() cache,
+    required TResult Function() firestore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? network,
     TResult Function()? cache,
+    TResult Function()? firestore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? network,
     TResult Function()? cache,
+    TResult Function()? firestore,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -327,18 +332,21 @@ mixin _$ModeSourceData {
   TResult map<TResult extends Object?>({
     required TResult Function(_Network value) network,
     required TResult Function(_Cache value) cache,
+    required TResult Function(_FireStore value) firestore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Network value)? network,
     TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Network value)? network,
     TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -410,6 +418,7 @@ class _$_Network implements _Network {
   TResult when<TResult extends Object?>({
     required TResult Function() network,
     required TResult Function() cache,
+    required TResult Function() firestore,
   }) {
     return network();
   }
@@ -419,6 +428,7 @@ class _$_Network implements _Network {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? network,
     TResult Function()? cache,
+    TResult Function()? firestore,
   }) {
     return network?.call();
   }
@@ -428,6 +438,7 @@ class _$_Network implements _Network {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? network,
     TResult Function()? cache,
+    TResult Function()? firestore,
     required TResult orElse(),
   }) {
     if (network != null) {
@@ -441,6 +452,7 @@ class _$_Network implements _Network {
   TResult map<TResult extends Object?>({
     required TResult Function(_Network value) network,
     required TResult Function(_Cache value) cache,
+    required TResult Function(_FireStore value) firestore,
   }) {
     return network(this);
   }
@@ -450,6 +462,7 @@ class _$_Network implements _Network {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Network value)? network,
     TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
   }) {
     return network?.call(this);
   }
@@ -459,6 +472,7 @@ class _$_Network implements _Network {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Network value)? network,
     TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
     required TResult orElse(),
   }) {
     if (network != null) {
@@ -528,6 +542,7 @@ class _$_Cache implements _Cache {
   TResult when<TResult extends Object?>({
     required TResult Function() network,
     required TResult Function() cache,
+    required TResult Function() firestore,
   }) {
     return cache();
   }
@@ -537,6 +552,7 @@ class _$_Cache implements _Cache {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? network,
     TResult Function()? cache,
+    TResult Function()? firestore,
   }) {
     return cache?.call();
   }
@@ -546,6 +562,7 @@ class _$_Cache implements _Cache {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? network,
     TResult Function()? cache,
+    TResult Function()? firestore,
     required TResult orElse(),
   }) {
     if (cache != null) {
@@ -559,6 +576,7 @@ class _$_Cache implements _Cache {
   TResult map<TResult extends Object?>({
     required TResult Function(_Network value) network,
     required TResult Function(_Cache value) cache,
+    required TResult Function(_FireStore value) firestore,
   }) {
     return cache(this);
   }
@@ -568,6 +586,7 @@ class _$_Cache implements _Cache {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Network value)? network,
     TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
   }) {
     return cache?.call(this);
   }
@@ -577,6 +596,7 @@ class _$_Cache implements _Cache {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Network value)? network,
     TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
     required TResult orElse(),
   }) {
     if (cache != null) {
@@ -597,4 +617,132 @@ abstract class _Cache implements ModeSourceData {
   const factory _Cache() = _$_Cache;
 
   factory _Cache.fromJson(Map<String, dynamic> json) = _$_Cache.fromJson;
+}
+
+/// @nodoc
+abstract class _$$_FireStoreCopyWith<$Res> {
+  factory _$$_FireStoreCopyWith(
+          _$_FireStore value, $Res Function(_$_FireStore) then) =
+      __$$_FireStoreCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_FireStoreCopyWithImpl<$Res>
+    extends _$ModeSourceDataCopyWithImpl<$Res>
+    implements _$$_FireStoreCopyWith<$Res> {
+  __$$_FireStoreCopyWithImpl(
+      _$_FireStore _value, $Res Function(_$_FireStore) _then)
+      : super(_value, (v) => _then(v as _$_FireStore));
+
+  @override
+  _$_FireStore get _value => super._value as _$_FireStore;
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_FireStore implements _FireStore {
+  const _$_FireStore({final String? $type}) : $type = $type ?? 'firestore';
+
+  factory _$_FireStore.fromJson(Map<String, dynamic> json) =>
+      _$$_FireStoreFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'ModeSourceData.firestore()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_FireStore);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() network,
+    required TResult Function() cache,
+    required TResult Function() firestore,
+  }) {
+    return firestore();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? network,
+    TResult Function()? cache,
+    TResult Function()? firestore,
+  }) {
+    return firestore?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? network,
+    TResult Function()? cache,
+    TResult Function()? firestore,
+    required TResult orElse(),
+  }) {
+    if (firestore != null) {
+      return firestore();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Network value) network,
+    required TResult Function(_Cache value) cache,
+    required TResult Function(_FireStore value) firestore,
+  }) {
+    return firestore(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Network value)? network,
+    TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
+  }) {
+    return firestore?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Network value)? network,
+    TResult Function(_Cache value)? cache,
+    TResult Function(_FireStore value)? firestore,
+    required TResult orElse(),
+  }) {
+    if (firestore != null) {
+      return firestore(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_FireStoreToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FireStore implements ModeSourceData {
+  const factory _FireStore() = _$_FireStore;
+
+  factory _FireStore.fromJson(Map<String, dynamic> json) =
+      _$_FireStore.fromJson;
 }

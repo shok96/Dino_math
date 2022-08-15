@@ -18,11 +18,20 @@ class MUser with _$MUser {
   const factory MUser({
     required String name,
     required int id,
+    required ModeUser modeUser,
   }) = _MUser;
 
   factory MUser.Google({
     required String name,
     required String id,
-  }) => MUser(name: name, id: id.hashCode);
+  }) => MUser(name: name, id: id.hashCode, modeUser: ModeUser.firebase());
+
+}
+
+@freezed
+class ModeUser with _$ModeUser {
+  const factory ModeUser.anonymus() = _Anonymus;
+
+  const factory ModeUser.firebase() = _Firebase;
 
 }

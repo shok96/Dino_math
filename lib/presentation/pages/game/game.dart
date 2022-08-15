@@ -80,7 +80,7 @@ class _GameState extends State<_GameScreen> {
                       () => _globalKeyProgressBar.currentState?.start()),
           gameOver: (data, time, gameResult) {
             _globalKeyProgressBar.currentState?.stop();
-            if(gameResult.star > 0)
+            if(gameResult.star > 0 && !time)
             blocLevel.add(BlocLevelEvent.save(gameResult));
             Utils
                 .routerScreenFuture(
