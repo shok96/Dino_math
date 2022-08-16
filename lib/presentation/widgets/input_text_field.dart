@@ -63,6 +63,7 @@ class _AuthField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         validator: valid,
         decoration: InputDecoration(
+          errorMaxLines: 2,
           focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.red)),

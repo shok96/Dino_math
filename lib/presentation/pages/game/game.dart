@@ -22,7 +22,9 @@ import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
 import 'package:dino_solver/presentation/widgets/button_answer_action.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/example_container.dart';
+import 'package:dino_solver/presentation/widgets/hint.dart';
 import 'package:dino_solver/presentation/widgets/progress_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,7 +42,7 @@ class Game extends StatelessWidget {
     return BlocProxy<BlocGame>(
         bloc: (context, bloc) => BlocGame(di.sl<UCGame>()),
         child: _GameScreen(
-          id:id,
+          id: id,
           levels: levels,
         ));
   }
@@ -69,36 +71,34 @@ class _GameState extends State<_GameScreen> {
     blocLevel = context.read<BlocLevel>();
     userRepository = context.read<UserRepository>();
     super.didChangeDependencies();
-    blocGame.add(
-        BlocGameEvent.startLevel(widget.levels, userRepository.getDifficult(), id: widget.id));
+    blocGame.add(BlocGameEvent.startLevel(
+        widget.levels, userRepository.getDifficult(),
+        id: widget.id));
     blocGame.add(BlocGameEvent.nextExample());
     blocGame.stream.listen((event) {
       event.maybeWhen(
           orElse: () {},
-          startLevel: () =>
-              Future.delayed(Duration(seconds: 1),
-                      () => _globalKeyProgressBar.currentState?.start()),
+          startLevel: () => Future.delayed(Duration(seconds: 1),
+              () => _globalKeyProgressBar.currentState?.start()),
           gameOver: (data, time, gameResult) {
             _globalKeyProgressBar.currentState?.stop();
-            if(gameResult.star > 0 && !time)
-            blocLevel.add(BlocLevelEvent.save(gameResult));
-            Utils
-                .routerScreenFuture(
-                context,
-                time
-                    ? Lose()
-                    : (data.length > 7
-                    ? Lose()
-                    : Win(
-                  wrongExample: data,
-                )))
+            if (gameResult.star > 0 && !time)
+              blocLevel.add(BlocLevelEvent.save(gameResult));
+            Utils.routerScreenFuture(
+                    context,
+                    time
+                        ? Lose()
+                        : (data.length > 7
+                            ? Lose()
+                            : Win(
+                                wrongExample: data,
+                              )))
                 .then((value) {
               if (value is MRouteGameRestart)
                 _restart();
               else if (value is MRouteGameNextLevel) _nextLevel();
             });
-          }
-      );
+          });
     });
   }
 
@@ -111,13 +111,11 @@ class _GameState extends State<_GameScreen> {
   }
 
   void _restart() {
-    blocGame.add(
-        BlocGameEvent.restartLevel(userRepository.getDifficult()));
+    blocGame.add(BlocGameEvent.restartLevel(userRepository.getDifficult()));
   }
 
   void _nextLevel() {
-    blocGame.add(
-        BlocGameEvent.nextLevel(userRepository.getDifficult()));
+    blocGame.add(BlocGameEvent.nextLevel(userRepository.getDifficult()));
   }
 
   @override
@@ -129,13 +127,11 @@ class _GameState extends State<_GameScreen> {
           child: Column(
             children: [
               BlocBuilder<BlocGame, BlocGameState>(
-                builder: (context, state) =>
-                    state.maybeWhen(
-                        orElse: () => SizedBox.shrink(),
-                        example: (data) =>
-                            Text("Уровень ${data.currentLevel}"),
-                        hint: (data) =>
-                            Text("Уровень ${data.currentLevel}"),),
+                builder: (context, state) => state.maybeWhen(
+                  orElse: () => SizedBox.shrink(),
+                  example: (data) => Text("game_title".tr()+"${data.currentLevel}"),
+                  hint: (data) => Text("game_title".tr()+"${data.currentLevel}"),
+                ),
               ),
               Row(
                 children: [
@@ -147,9 +143,8 @@ class _GameState extends State<_GameScreen> {
                       children: [
                         Image.asset(LocalImages.known),
                         Text(
-                          "Как решать?",
-                          style: Theme
-                              .of(context)
+                          "game_how_button".tr(),
+                          style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               ?.copyWith(fontSize: 10.sp),
@@ -159,42 +154,20 @@ class _GameState extends State<_GameScreen> {
                   ),
                   Spacer(),
                   BlocBuilder<BlocGame, BlocGameState>(
-                      builder: (context, state) =>
-                          state.maybeWhen(
+                      builder: (context, state) => state.maybeWhen(
                             orElse: () => SizedBox.shrink(),
-                            example: (data) =>
-                                Text(
-                                    "${data.currentIndex + 1}/${data
-                                        .lengthExample}"),
-                            hint: (data) =>
-                                Text(
-                                    "${data.currentIndex + 1}/${data
-                                        .lengthExample}"),
+                            example: (data) => Text(
+                                "${data.currentIndex + 1}/${data.lengthExample}"),
+                            hint: (data) => Text(
+                                "${data.currentIndex + 1}/${data.lengthExample}"),
                           )),
                   Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      blocGame.add(BlocGameEvent.showHint());
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text("+2"),
-                            Image.asset(LocalImages.pen),
-                          ],
-                        ),
-                        Text(
-                          "Подсказка",
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyText2
-                              ?.copyWith(fontSize: 10.sp),
-                        )
-                      ],
-                    ),
-                  )
+                  BlocBuilder<BlocGame, BlocGameState>(
+                      builder: (context, state) => state.maybeWhen(
+                            orElse: () => SizedBox.shrink(),
+                            example: (data) => Hint(data.hint, () => blocGame.add(BlocGameEvent.showHint())),
+                            hint: (data) => Hint(data.hint, () => blocGame.add(BlocGameEvent.showHint())),
+                          )),
                 ],
               ),
               SizedBox(
@@ -222,21 +195,18 @@ class _GameState extends State<_GameScreen> {
                           fit: BoxFit.cover)),
                   child: Center(
                     child: BlocBuilder<BlocGame, BlocGameState>(
-                      builder: (context, state) =>
-                          state.maybeWhen(
-                              orElse: () => SizedBox.shrink(),
-                              example: (data) =>
-                                  Padding(
-                                    padding: EdgeInsets.all(30.r),
-                                    child: ExampleContainer(
-                                        text: data.task.example.question),
-                                  ),
-                              hint: (data) =>
-                                  Padding(
-                                    padding: EdgeInsets.all(30.r),
-                                    child: ExampleContainer(
-                                        text: data.task.example.question),
-                                  )),
+                      builder: (context, state) => state.maybeWhen(
+                          orElse: () => SizedBox.shrink(),
+                          example: (data) => Padding(
+                                padding: EdgeInsets.all(30.r),
+                                child: ExampleContainer(
+                                    text: data.task.example.question),
+                              ),
+                          hint: (data) => Padding(
+                                padding: EdgeInsets.all(30.r),
+                                child: ExampleContainer(
+                                    text: data.task.example.question),
+                              )),
                     ),
                   ),
                 ),
@@ -246,23 +216,20 @@ class _GameState extends State<_GameScreen> {
                   padding: EdgeInsets.symmetric(vertical: 16.h),
                   child: Center(
                       child: BlocBuilder<BlocGame, BlocGameState>(
-                        builder: (context, state) =>
-                            state.maybeWhen(
-                                orElse: () => ButtonAnswerAction(),
-                                example: (data) =>
-                                    ButtonAnswerAction(
-                                      example: data.task,
-                                    ),
-                                hint: (data) =>
-                                    ButtonAnswerAction(
-                                      example: data.task,
-                                      hint: true,
-                                    )),
-                      )),
+                    builder: (context, state) => state.maybeWhen(
+                        orElse: () => ButtonAnswerAction(),
+                        example: (data) => ButtonAnswerAction(
+                              example: data.task,
+                            ),
+                        hint: (data) => ButtonAnswerAction(
+                              example: data.task,
+                              hint: true,
+                            )),
+                  )),
                 ),
               ),
               CustomButton(
-                  text: "Закончить игру",
+                  text: "game_end_button".tr(),
                   action: () {
                     // Utils.routerScreen(context, Win());
                   },

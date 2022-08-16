@@ -16,6 +16,7 @@ import 'package:dino_solver/presentation/pages/how/how.dart';
 import 'package:dino_solver/presentation/pages/pay/pay.dart';
 import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -80,7 +81,7 @@ class Lose extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Ну вот :(",
+                        "game_lose_title".tr(),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             color: ConstColors.loseText, fontSize: 30.sp),
@@ -96,14 +97,14 @@ class Lose extends StatelessWidget {
                           )),
                       Spacer(),
                       Text(
-                        "Говорят, что у всех дорог есть конец, но иногда конец похож на начало, даже если ты прошел очень длинный путь(",
+                        "game_lose_text".tr(),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             color: ConstColors.white, fontSize: 15.sp),
                       ),
                       Spacer(),
                       CustomButton(
-                          text: "Начать заново",
+                          text: "game_lose_restart".tr(),
                           action: () {
                             Utils.routerPop(context, MRouteGame.restart());
                           },

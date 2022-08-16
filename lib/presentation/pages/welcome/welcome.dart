@@ -19,6 +19,7 @@ import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/logout_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,14 +85,14 @@ class _WelcomeScreenState extends State<_WelcomeScreen> {
                     children: [
                       SizedBox(
                           width: double.infinity,
-                          child: Text("Привет", style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red), textAlign: TextAlign.center,)),
+                          child: Text("menu_title".tr(), style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red), textAlign: TextAlign.center,)),
                       Positioned(right:0, child: LogoutWidget()),
                     ],
                   ),
                   SizedBox(height: 32.h,),
-                  Text("Прокачай свой мозг, решая задачки", textAlign: TextAlign.center),
+                  Text("menu_title2".tr(), textAlign: TextAlign.center),
                   Spacer(),
-                  CustomButton(text: "Решать!", action: (){
+                  CustomButton(text: "menu_game".tr(), action: (){
                     Utils.routerScreen(context, Difficult());
                   }, color: ConstColors.red,),
                   Spacer(),

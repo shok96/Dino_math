@@ -6,6 +6,7 @@
  *
  */
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -29,9 +30,9 @@ class FormAuth extends StatefulWidget {
   TextEditingController password;
 
   final passwordValidator = MultiValidator([
-    RequiredValidator(errorText: 'Пароль обязателен'),
-    MinLengthValidator(8, errorText: 'Пароль должен быть больше или равно 8 символов'),
-    PatternValidator(r'(?=.*?[#?!@$%^&*-])', errorText: 'Пароль должен иметь хотябы 1 спецсимвол')
+    RequiredValidator(errorText: 'auth_form_pass_req'.tr()),
+    MinLengthValidator(8, errorText: 'auth_form_pass_big'.tr()),
+    PatternValidator(r'(?=.*?[#?!@$%^&*-])', errorText: 'auth_form_pass_spec'.tr())
   ]);
 
   Widget Function(_FormAuthState state) action;
@@ -68,14 +69,14 @@ class _FormAuthState extends State<FormAuth> {
             enabled: !sending,
             controller: widget.email,
             hint: "email",
-            valid: EmailValidator(errorText: "Не корректный email"),
+            valid: EmailValidator(errorText: "auth_form_email_wrong".tr()),
           ),
           InputTextField(
             mode: modeField.Auth,
             enabled: !sending,
             password: true,
             controller: widget.password,
-            hint: "Пароль",
+            hint: "auth_form_pass".tr(),
             valid: widget.passwordValidator,
           ),
           SizedBox(

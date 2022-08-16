@@ -1,0 +1,52 @@
+{
+  "app_name":"DinoMath",
+  "default_notification_channel_id":"Administartor",
+  "difficult_title":"Select difficulty level",
+  "difficult_easy":"Schoolboy",
+  "difficult_normal":"Student",
+  "difficult_hard":"Professor",
+
+  "disads_title":"Do you agree to unsubscribe from ads?",
+  "disads_subs":"Buy 1 month subscription without ads",
+  "disads_pay":"Buy ad-free subscription forever",
+
+  "game_title":"level",
+  "game_how_button":"How to decide?",
+  "game_hint_button":"Hint",
+  "game_end_button":"End game",
+
+  "game_lose_title":"Well here :(",
+  "game_lose_text":"They say that all roads have an end, but sometimes the end is like the beginning, even if you have come a very long way (",
+  "game_lose_restart":"Restart",
+
+  "menu_title":"Hello!",
+  "menu_title2":"Boost your brain by solving puzzles",
+  "menu_game":"Decide!",
+
+  "win_title":"Good",
+  "win_title2":"Class!",
+  "win_title3":"Great!",
+  "win_title4":"Wow!",
+  "win_title_green":"There were errors here:",
+  "win_title_green2":"Everything was solved without errors",
+  "next":"Continue",
+
+  "level_warning":"Must have at least 2 stars on the previous level.",
+
+  "how_solve":" Where to start?\n\nStart with the simplest level - the addition of single-digit numbers, and bring it to perfection: 99% correct answers, for each answer 1-2 seconds. To solve the 10-step examples, try using the following technique - “Lean on ten”. \n\nLets say you need to add 8 and 7. \n\n1) Ask yourself how much 8 is not enough to 10 (thats 2). \n\n2) Imagine 7 as the sum of 2 and some other piece (this is 5). \n\n3) Add to 8 first the part of the number 7 that was missing before 10, and then that second piece - you get 10 and 5, and this, of course, is 15. \n\nWhat about subtraction? \n\nAnd here you need to start from the basic level - subtracting a single number from the first and second ten - and bring this skill to perfection. As with addition, problems usually arise with subtraction through 10. And here a similar way of leaning on a dozen will help. \n\nLet say we need to subtract 8. \n\n1) Ask yourself how much you need to subtract from 12 to get 10 (thats 2). \n\n2) We will subtract 8 from 12 in parts - first we subtract this 2, and then everything else. And the rest is how much? (thats 6). \n\n3) After subtracting 2 from 12, we got 10, and we need to subtract 6 more, we get 4. Done! \n\nHow does multiplication work? \n\nLets start by multiplying single-digit numbers. First you need to remember that multiplication is when the same thing is added several times. For example, multiplying 4 by 7 means adding four sevens. Using the technique of addition, we can easily calculate - two sevens, 7 and 7, will be 14, if we add a third 7, we get 21, and adding the last, fourth seven, as a result, we get 28. \n\nGradually, as a result of training, you will remember the reference values ​​of multiplication that are convenient for you and with their help you will be able to quickly calculate the adjacent ones. For example, if you need to multiply 6 by 7 (that is, add six sevens), and you remember that 5 times 7 (that is, add five sevens) will be 35, then to get the final result, you just need to add the sixth seven - it will turn out 42. \n\nThe most difficult example in the multiplication table is 7 ∙ 8. To memorize it, there is a good mnemonic rule five six seven eight, which means 56 = 7 ∙ 8. \n\nThere is only one last action left, division? \n\nYes, we are on the home stretch. And again, lets start from the simplest level: dividing by a single-digit number of those numbers that are familiar to us from multiplying single-digit ones. \n\nSo what is division? In fact, this is the inverse operation to multiplication. \n\nFor example, dividing 56 by 7 means choosing a number such that if you multiply it by 7, you get 56. Since you are already well-versed in the multiplication table by this point, you will probably remember that 8 multiplied by 7 gives 56. Hence, the required number is 8, 56: 7 = 8. \n\nAnd so it is always - remember which number gives the desired result when multiplied - this is the number you need. \n\n ",
+
+  "how_title":"How solve?",
+
+  "auth_error_reg": "Registration failed",
+  "auth_how_name": "How should I contact you?",
+  "auth_i_know_login": "I remember my details (Login)",
+  "auth_i_need_reg": "I need to get to know you (Register)",
+  "auth_write_contact": "Go back and write your details",
+  "auth_anonym": "I want to be incognito",
+
+  "auth_form_pass_req": "Password required",
+  "auth_form_pass_big": "Password must be greater than or equal to 8 characters",
+  "auth_form_pass_spec": "Password must have at least 1 special character",
+  "auth_form_email_wrong": "Invalid email",
+  "auth_form_pass":"Password"
+}

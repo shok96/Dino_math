@@ -12,6 +12,7 @@ import 'package:dino_solver/core/common/utils.dart';
 import 'package:dino_solver/presentation/pages/levels/levels.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/custom_pay_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,11 +52,11 @@ class Pay extends StatelessWidget {
                 children: [
                   Image.asset(LocalImages.dino7),
                   SizedBox(height: 32.h,),
-                  Text("Вы согласны отписаться от рекламы?", textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red, fontSize: 15.sp),),
+                  Text("disads_title".tr(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red, fontSize: 15.sp),),
                   SizedBox(height: 16.h,),
-                  CustomPayButton(text: "Преобрести подписку на 1 месяц без рекламы", action: (){}, color: ConstColors.lightGrown, color_text: ConstColors.lightGrownBorder, coast: 1),
+                  CustomPayButton(text: "disads_subs".tr(), action: (){}, color: ConstColors.lightGrown, color_text: ConstColors.lightGrownBorder, coast: 1),
                   SizedBox(height: 16.h,),
-                  CustomPayButton(text: "преобрести подписку без рекламы навсегда", action: (){}, color: ConstColors.lightGrown, color_text: ConstColors.lightGrownBorder, coast: 3),
+                  CustomPayButton(text: "Пdisads_pay".tr(), action: (){}, color: ConstColors.lightGrown, color_text: ConstColors.lightGrownBorder, coast: 3),
                 ],
               ),
             ),

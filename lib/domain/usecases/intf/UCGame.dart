@@ -23,6 +23,7 @@ abstract class UCGame {
   MLevelSession getCurrentExample();
   bool checkExample(MMath example, int answer);
   List<MMath> getWrong();
+  void showHint();
   MGame getEndGame();
 
 }

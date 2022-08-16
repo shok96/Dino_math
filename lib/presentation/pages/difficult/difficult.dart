@@ -15,6 +15,7 @@ import 'package:dino_solver/presentation/pages/levels/levels.dart';
 import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/logout_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,22 +70,22 @@ class Difficult extends StatelessWidget {
                 children: [
                   Image.asset(LocalImages.dino3),
                   SizedBox(height: 32.h,),
-                  Text("Выбери уровень сложности", textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red),),
+                  Text("difficult_title".tr(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText2?.copyWith(color: ConstColors.red),),
                   Spacer(),
                   Padding(
                     padding: EdgeInsets.all(16.r),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomButton(text: "Школьник", action: (){
+                        CustomButton(text: "difficult_easy".tr(), action: (){
                          setDifficult(context, MDifficult.easy());
                         }, color: ConstColors.lightGrown, color_text: ConstColors.lightGrownBorder, full_width: true),
                         SizedBox(height: 35.h,),
-                        CustomButton(text: "Студент", action: (){
+                        CustomButton(text: "difficult_normal".tr(), action: (){
                           setDifficult(context, MDifficult.medium());
                         }, color: ConstColors.lightGrown, color_text: ConstColors.lightGrownBorder,full_width: true),
                         SizedBox(height: 35.h,),
-                        CustomButton(text: "Профессор", action: (){
+                        CustomButton(text: "difficult_hard".tr(), action: (){
                           setDifficult(context, MDifficult.hard());
                         }, color: ConstColors.lightGrown, color_text: ConstColors.lightGrownBorder,full_width: true),
                       ],

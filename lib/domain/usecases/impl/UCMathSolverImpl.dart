@@ -99,4 +99,90 @@ class UCMathSolverImpl extends UCMathSolver {
     }
   }
 
+  @override
+  MMath genLevel6() {
+    _genSeed();
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 5;
+    final a = random.nextInt(complexity + currentLevel);
+    final b = random.nextInt(complexity + currentLevel);
+    final d = random.nextInt(complexity + currentLevel);
+    switch (random.nextInt(2)) {
+      case 0:
+        final c = a * b + d;
+        return MMath(question: "$a * $b + $d", answer: c, complexity: complexity);
+      case 1:
+        final c = a * b - d;
+        return MMath(question: "$a * $b - $d", answer: c, complexity: complexity);
+      default:
+        final c = a * b + d;
+        return MMath(question: "$a * $b + $d", answer: c, complexity: complexity);
+    }
+  }
+
+  @override
+  MMath genLevel7() {
+    _genSeed();
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 5;
+    final a = random.nextInt(complexity + currentLevel);
+    final b = random.nextInt(complexity + currentLevel);
+    final d = random.nextInt(complexity + currentLevel);
+    switch (random.nextInt(2)) {
+      case 0:
+        final c = a - b * d;
+        return MMath(question: "$a - $b * $d", answer: c, complexity: complexity);
+      case 1:
+        final c = a + b * d;
+        return MMath(question: "$a + $b * $d", answer: c, complexity: complexity);
+      default:
+        final c = a *- b * d;
+        return MMath(question: "$a - $b * $d", answer: c, complexity: complexity);
+    }
+  }
+
+  @override
+  MMath genLevel8() {
+    _genSeed();
+    switch (random.nextInt(4)) {
+      case 0:
+        return genLevel1();
+      case 1:
+        return genLevel3();
+      case 2:
+        return genLevel5();
+      case 3:
+        return genLevel7();
+      default:
+        return genLevel1();
+    }
+  }
+
+  @override
+  MMath genLevel9() {
+    _genSeed();
+    switch (random.nextInt(4)) {
+      case 0:
+        return genLevel2();
+      case 1:
+        return genLevel4();
+      case 2:
+        return genLevel6();
+      case 3:
+        return genLevel8();
+      default:
+        return genLevel1();
+    }
+  }
+
+  @override
+  MMath genLevel10() {
+    _genSeed();
+    final complexity = 10 + _getDifficult() * 5;
+    final currentLevel = 3;
+    final a = random.nextInt(complexity + currentLevel);
+    final c = a * a;
+    return MMath(question: "\\sqrt{$c}", answer: a, complexity: complexity);
+  }
+
 }

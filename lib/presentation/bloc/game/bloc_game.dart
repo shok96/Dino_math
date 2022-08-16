@@ -35,11 +35,15 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
           if (_game.checkExample(example, answer))
             emit(BlocGameState.example(_game.getExample()));
           else
-            emit(BlocGameState.gameOver(_game.getWrong(), false, _game.getEndGame()));
+            emit(BlocGameState.gameOver(
+                _game.getWrong(), false, _game.getEndGame()));
         },
-        gameOver: (time) =>
-            emit(BlocGameState.gameOver(_game.getWrong(), time, _game.getEndGame())),
-        showHint: () => emit(BlocGameState.hint(_game.getCurrentExample())),
+        gameOver: (time) => emit(
+            BlocGameState.gameOver(_game.getWrong(), time, _game.getEndGame())),
+        showHint: () {
+          _game.showHint();
+          emit(BlocGameState.hint(_game.getCurrentExample()));
+        },
         restartLevel: (difficult) {
           _game.restartLevel(difficult);
           emit(BlocGameState.startLevel());
@@ -57,8 +61,8 @@ class BlocGame extends Bloc<BlocGameEvent, BlocGameState> {
 
 @freezed
 class BlocGameEvent with _$BlocGameEvent {
-  const factory BlocGameEvent.startLevel(int level, MDifficult difficult, {int? id}) =
-      _StartLevelEvent;
+  const factory BlocGameEvent.startLevel(int level, MDifficult difficult,
+      {int? id}) = _StartLevelEvent;
 
   const factory BlocGameEvent.nextLevel(MDifficult difficult) = _NextLevelEvent;
 
@@ -86,6 +90,6 @@ class BlocGameState with _$BlocGameState {
 
   const factory BlocGameState.hint(MLevelSession example) = _HintState;
 
-  const factory BlocGameState.gameOver(List<MMath> wrongExample, bool time, MGame resultGame) =
-      _GameOverState;
+  const factory BlocGameState.gameOver(
+      List<MMath> wrongExample, bool time, MGame resultGame) = _GameOverState;
 }

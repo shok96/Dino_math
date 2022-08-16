@@ -14,6 +14,7 @@ import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
 import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/bloc/user/bloc_user.dart';
 import 'package:dino_solver/presentation/pages/splash/splash.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -27,7 +28,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await EasyLocalization.ensureInitialized();
   await di.init();
 
   runZonedGuarded<Future<void>>(() async {
@@ -48,7 +49,11 @@ Future<void> main() async {
     SystemChrome.setPreferredOrientations(
             [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
         .then((_) => BlocOverrides.runZoned(
-              () => runApp(const MyApp()),
+              () => runApp(EasyLocalization(
+                  supportedLocales: [Locale('en'), Locale('ru')],
+                  path: 'assets/translations', // <-- change the path of the translation files
+                  fallbackLocale: Locale('en'),
+                  child: const MyApp())),
               blocObserver: AppBlocObserver(),
             ));
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
@@ -86,6 +91,9 @@ class MyApp extends StatelessWidget {
           child: ScreenUtilInit(
               designSize: Size(414, 896),
               builder: (BuildContext context, Widget? child) => MaterialApp(
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
                   theme: themeData(context),
                   title: 'Математика с Дино',
                   home: Splash())),

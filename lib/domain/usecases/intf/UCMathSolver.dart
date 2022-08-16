@@ -19,5 +19,9 @@ abstract class UCMathSolver {
   MMath genLevel3();
   MMath genLevel4();
   MMath genLevel5();
-
+  MMath genLevel6();
+  MMath genLevel7();
+  MMath genLevel8();
+  MMath genLevel9();
+  MMath genLevel10();
 }

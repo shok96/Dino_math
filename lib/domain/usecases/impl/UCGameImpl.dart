@@ -16,6 +16,7 @@ import 'package:dino_solver/data/models/MMath.dart';
 import 'package:dino_solver/domain/repository/repository.dart';
 import 'package:dino_solver/domain/usecases/intf/UCGame.dart';
 import 'package:dino_solver/domain/usecases/intf/UCMathSolver.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UCGameImpl extends UCGame {
   UCMathSolver _mathSolver;
@@ -33,9 +34,10 @@ class UCGameImpl extends UCGame {
 
   int _counter = 0;
 
-  UCGameImpl(this._mathSolver, this._repository){
-    print(1);
-  }
+  int hint = 2;
+  bool pushHint = false;
+
+  UCGameImpl(this._mathSolver, this._repository);
 
   @override
   List<MMath> nextLevel(MDifficult difficult) {
@@ -50,6 +52,8 @@ class UCGameImpl extends UCGame {
 
   void _clear() {
     //if (_id_level != null) _id_level = null;
+    hint = 2;
+    pushHint = false;
     _listExample.clear();
     _listExampleWrong.clear();
     _counter = 0;
@@ -67,6 +71,16 @@ class UCGameImpl extends UCGame {
         return _mathSolver.genLevel4();
       case 5:
         return _mathSolver.genLevel5();
+      case 6:
+        return _mathSolver.genLevel6();
+      case 7:
+        return _mathSolver.genLevel7();
+      case 8:
+        return _mathSolver.genLevel8();
+      case 9:
+        return _mathSolver.genLevel9();
+      case 10:
+        return _mathSolver.genLevel10();
       default:
         return _mathSolver.genLevel1();
     }
@@ -112,12 +126,14 @@ class UCGameImpl extends UCGame {
 
   @override
   MLevelSession getExample() {
+    pushHint = false;
     final res = _listExample[_counter];
     final _currentCounter = _counter;
     if ((_counter) < _listExample.length) {
       _counter++;
     }
     _currentExample = MLevelSession(
+      hint: hint,
         currentLevel: _currentLevel,
         task: _genExample(res),
         currentIndex: _currentCounter,
@@ -146,8 +162,16 @@ class UCGameImpl extends UCGame {
   }
 
   @override
+  void showHint(){
+    if(hint - 1 >= 0 && !pushHint){
+      hint--;
+      pushHint = true;
+    }
+  }
+
+  @override
   MLevelSession getCurrentExample() {
-    return _currentExample;
+    return _currentExample.copyWith(hint: hint);
   }
 
   int _calcStars() {

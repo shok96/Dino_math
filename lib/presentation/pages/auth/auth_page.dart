@@ -13,6 +13,7 @@ import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
 import 'package:dino_solver/presentation/pages/welcome/welcome.dart';
 import 'package:dino_solver/presentation/widgets/auth_button.dart';
 import 'package:dino_solver/presentation/widgets/form_auth.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,7 +68,7 @@ class _AuthPageState extends State<AuthPage> {
         if (user.user != null) {
           Utils.routerScreenDeleteStack(context, Welcome());
         } else {
-          Utils.toast(context, "Ошибка регистрации");
+          Utils.toast(context, "auth_error_reg".tr());
         }
       } on FirebaseAuthException catch (e) {
         Utils.toast(context, e.message ?? "");
@@ -110,7 +111,7 @@ class _AuthPageState extends State<AuthPage> {
                   children: [
                     Image.asset(LocalImages.dino),
                     Text(
-                      "Как мне к тебе обращаться?",
+                      "auth_how_name".tr(),
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                           fontSize: 20,
                           fontWeight: FontWeight.w400,
@@ -142,7 +143,7 @@ class _AuthPageState extends State<AuthPage> {
                                 });
                               }
                             },
-                            text: mode == modeAuth.Login ? "Я помню свои данные (Войти)" : "Мне нужно познакомится с тобой (Зарегистрироваться)")),
+                            text: mode == modeAuth.Login ? "auth_i_know_login".tr() : "auth_i_need_reg".tr())),
                     AuthButton(
                         fillColor: ConstColors.green,
                         action: () {
@@ -154,13 +155,13 @@ class _AuthPageState extends State<AuthPage> {
                           });
                         },
                         text:
-                        mode == modeAuth.Login ? "Мне нужно познакомится с тобой (Зарегистрироваться)" : "Вернуться и написать свои данные"),
+                        mode == modeAuth.Login ? "auth_i_need_reg".tr() : "auth_write_contact".tr()),
                     AuthButton(
                       fillColor: ConstColors.red,
                         action: () {
                           anonymus();
                         },
-                        text: "Хочу быть инкогнито"),
+                        text: "auth_anonym".tr()),
                     SizedBox(
                       height: 25,
                     ),

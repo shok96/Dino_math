@@ -22,6 +22,7 @@ class MLevelSession with _$MLevelSession {
     required int currentIndex,
     required int lengthExample,
     required int currentLevel,
+    required int hint
   }) = _MLevelSession;
 
 

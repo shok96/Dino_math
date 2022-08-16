@@ -18,6 +18,7 @@ import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/levels_item.dart';
 import 'package:dino_solver/presentation/widgets/logout_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,9 +44,9 @@ class _LevelsScreen extends StatefulWidget {
 class _LevelsScreenState extends State<_LevelsScreen> {
   String getDifficult(BuildContext context) {
     return context.read<UserRepository>().getDifficult().when(
-        easy: () => "Школьник",
-        medium: () => "Студент",
-        hard: () => "Профессор");
+        easy: () => "difficult_easy".tr(),
+        medium: () => "difficult_normal".tr(),
+        hard: () => "difficult_hard".tr());
   }
 
   @override

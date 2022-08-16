@@ -16,6 +16,7 @@ import 'package:dino_solver/presentation/pages/lose/lose.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/example_container_wrong.dart';
 import 'package:dino_solver/presentation/widgets/rate_level.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -63,7 +64,7 @@ class Win extends StatelessWidget {
                       height: 32.h,
                     ),
                     Text(
-                      "Хорошо",
+                      "win_title".tr(),
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -88,7 +89,7 @@ class Win extends StatelessWidget {
                           ),
                         ),
                     CustomButton(
-                        text: "Продолжить",
+                        text: "next".tr(),
                         action: () {
                           Utils.routerPop(context, MRouteGame.nextLevel());
                         },
