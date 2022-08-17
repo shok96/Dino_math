@@ -45,7 +45,17 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>CFBundleLocalizations</key>
+    <array>
+    	<string>en</string>
+    	<string>ru</string>
+    </array>
 	<key>FLTEnableImpeller</key>
-     <true/>
+     <false/>
+     <key>NSAppTransportSecurity</key>
+     <dict>
+         <key>NSAllowsLocalNetworking</key>
+         <true/>
+     </dict>
 </dict>
 </plist>

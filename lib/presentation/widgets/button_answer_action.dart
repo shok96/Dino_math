@@ -28,7 +28,7 @@ class ButtonAnswerAction extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 5 / 2,
+          childAspectRatio: 3,
           crossAxisSpacing: 20.r,
           mainAxisSpacing: 20.r,
           crossAxisCount: 2),

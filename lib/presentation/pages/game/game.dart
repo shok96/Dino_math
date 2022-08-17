@@ -231,6 +231,7 @@ class _GameState extends State<_GameScreen> {
               CustomButton(
                   text: "game_end_button".tr(),
                   action: () {
+                    Navigator.of(context).pop();
                     // Utils.routerScreen(context, Win());
                   },
                   color: ConstColors.lightGrown,

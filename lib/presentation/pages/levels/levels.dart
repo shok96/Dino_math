@@ -93,6 +93,7 @@ class _LevelsScreenState extends State<_LevelsScreen> {
                         width: double.infinity,
                         child: Row(
                           children: [
+                            BackButton(),
                             Image.asset(
                               LocalImages.star_on,
                               scale: 2,
@@ -136,7 +137,7 @@ class _LevelsScreenState extends State<_LevelsScreen> {
                           levels: (data) => GridView.builder(
                                 gridDelegate:
                                     SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 200.r,
+                                        maxCrossAxisExtent: 300.r,
                                         childAspectRatio: 4 / 2,
                                         crossAxisSpacing: 20.r,
                                         mainAxisSpacing: 20.r),

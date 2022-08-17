@@ -17,6 +17,7 @@ import 'package:dino_solver/presentation/pages/difficult/difficult.dart';
 import 'package:dino_solver/presentation/pages/levels/levels.dart';
 import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/bloc_proxy.dart';
+import 'package:dino_solver/presentation/widgets/button_switch_lang.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/logout_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -72,6 +73,17 @@ class _WelcomeScreenState extends State<_WelcomeScreen> {
           Positioned(
             child: Image.asset(LocalImages.dino2),
             left: 0,
+            bottom: 0,
+          ),
+          Positioned(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ButtonSwitchLang(ModeLang.Russian),
+                ButtonSwitchLang(ModeLang.English),
+              ],
+            ),
+            right: 0,
             bottom: 0,
           ),
           SafeArea(

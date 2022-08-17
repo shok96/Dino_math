@@ -12,6 +12,7 @@ import 'package:dino_solver/core/common/utils.dart';
 import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
 import 'package:dino_solver/presentation/pages/welcome/welcome.dart';
 import 'package:dino_solver/presentation/widgets/auth_button.dart';
+import 'package:dino_solver/presentation/widgets/button_switch_lang.dart';
 import 'package:dino_solver/presentation/widgets/form_auth.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -169,6 +170,17 @@ class _AuthPageState extends State<AuthPage> {
                 ),
               ),
             ),
+          ),
+          Positioned(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ButtonSwitchLang(ModeLang.Russian),
+                ButtonSwitchLang(ModeLang.English),
+              ],
+            ),
+            left: 8.w,
+            top: 30.h,
           ),
         ],
       ),

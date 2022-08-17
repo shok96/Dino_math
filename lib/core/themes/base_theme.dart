@@ -6,15 +6,30 @@
  *
  */
 
+import 'dart:io';
+
 import 'package:dino_solver/core/common/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData themeData(BuildContext context) {
-  return ThemeData(
-      textTheme: GoogleFonts.rocknRollOneTextTheme(Theme.of(context).textTheme)
-          .copyWith(
-              bodyText2: GoogleFonts.rocknRollOne(
-                  color: ConstColors.black, fontSize: 21.sp)));
+  if(Platform.isIOS) {
+    return ThemeData(
+        textTheme: GoogleFonts.robotoFlexTextTheme(Theme
+            .of(context)
+            .textTheme)
+            .copyWith(
+            bodyText2: GoogleFonts.robotoFlex(
+                color: ConstColors.black, fontSize: 21.sp)));
+  }
+  else {
+    return ThemeData(
+        textTheme: GoogleFonts.rocknRollOneTextTheme(Theme
+            .of(context)
+            .textTheme)
+            .copyWith(
+            bodyText2: GoogleFonts.rocknRollOne(
+                color: ConstColors.black, fontSize: 21.sp)));
+  }
 }
