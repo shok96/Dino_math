@@ -48,5 +48,8 @@
   "auth_form_pass_big": "Password must be greater than or equal to 8 characters",
   "auth_form_pass_spec": "Password must have at least 1 special character",
   "auth_form_email_wrong": "Invalid email",
-  "auth_form_pass":"Password"
+  "auth_form_pass":"Password",
+
+  "splash1":"Dino",
+  "splash2":"Solver"
 }

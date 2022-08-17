@@ -12,6 +12,7 @@ import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
 import 'package:dino_solver/presentation/bloc/auth/auth_state.dart';
 import 'package:dino_solver/presentation/pages/auth/auth_page.dart';
 import 'package:dino_solver/presentation/pages/welcome/welcome.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,9 +87,9 @@ class _SplashState extends State<Splash> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Математика"),
+                      Text("splash1".tr()),
                       Image.asset(LocalImages.dino),
-                      Text("с Дино"),
+                      Text("splash2".tr()),
                     ],
                   )
                 ],

@@ -40,5 +40,8 @@
   "auth_form_pass_big":"Пароль должен быть больше или равно 8 символов",
   "auth_form_pass_spec":"Пароль должен иметь хотябы 1 спецсимвол",
   "auth_form_email_wrong":"Не корректный email",
-  "auth_form_pass":"Пароль"
+  "auth_form_pass":"Пароль",
+
+  "splash1":"Математика",
+  "splash2":"с Дино"
 }
