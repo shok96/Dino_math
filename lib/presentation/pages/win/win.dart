@@ -13,6 +13,7 @@ import 'package:dino_solver/data/models/MMath.dart';
 import 'package:dino_solver/data/models/MRouteGame.dart';
 import 'package:dino_solver/presentation/pages/game/game.dart';
 import 'package:dino_solver/presentation/pages/lose/lose.dart';
+import 'package:dino_solver/presentation/widgets/ads.dart';
 import 'package:dino_solver/presentation/widgets/custom_button.dart';
 import 'package:dino_solver/presentation/widgets/example_container_wrong.dart';
 import 'package:dino_solver/presentation/widgets/rate_level.dart';
@@ -51,9 +52,7 @@ class Win extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Image.asset(
-                          LocalImages.ads,
-                        ),
+                        Ads(),
                       ],
                     ),
                     SizedBox(

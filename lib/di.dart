@@ -16,10 +16,12 @@ import 'package:dino_solver/data/repository/repositoryImpl.dart';
 import 'package:dino_solver/data/repository/userRepositoryImpl.dart';
 import 'package:dino_solver/domain/repository/repository.dart';
 import 'package:dino_solver/domain/repository/userRepository.dart';
+import 'package:dino_solver/domain/usecases/impl/UCAppImpl.dart';
 import 'package:dino_solver/domain/usecases/impl/UCGameImpl.dart';
 import 'package:dino_solver/domain/usecases/impl/UCLevelImpl.dart';
 import 'package:dino_solver/domain/usecases/impl/UCMathSolverImpl.dart';
 import 'package:dino_solver/domain/usecases/impl/UCUserImpl.dart';
+import 'package:dino_solver/domain/usecases/intf/UCApp.dart';
 import 'package:dino_solver/domain/usecases/intf/UCGame.dart';
 import 'package:dino_solver/domain/usecases/intf/UCLevel.dart';
 import 'package:dino_solver/domain/usecases/intf/UCMathSolver.dart';
@@ -30,6 +32,7 @@ import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/bloc/user/bloc_user.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart' hide Headers;
+import 'package:package_info_plus/package_info_plus.dart';
 
 final sl = GetIt.instance;
 
@@ -50,6 +53,7 @@ Future<void> init() async {
   sl.registerLazySingleton<UCGame>(() => UCGameImpl(sl(), sl()));
   sl.registerLazySingleton<UCUser>(() => UCUserImpl(sl()));
   sl.registerLazySingleton<UCLevel>(() => UCLevelImpl(sl()));
+  sl.registerLazySingleton<UCApp>(() => UCAppImpl());
   //  sl.registerLazySingleton<UCPost>(() => UCPostImpl(sl()));
   //  sl.registerLazySingleton<UCComment>(() => UCCommentImpl(sl()));
   //  sl.registerLazySingleton<UCAlbum>(() => UCAlbumImpl(sl()));
@@ -77,4 +81,6 @@ Future<void> init() async {
   //
    final database = AppDatabase();
    sl.registerLazySingleton(() => database);
+
+  sl<UCApp>().initPackageInfo(await PackageInfo.fromPlatform());
 }

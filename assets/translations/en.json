@@ -42,7 +42,7 @@
   "auth_i_know_login": "I remember my details (Login)",
   "auth_i_need_reg": "I need to get to know you (Register)",
   "auth_write_contact": "Go back and write your details",
-  "auth_anonym": "I want to be incognito",
+  "auth_anonym":"I want to be anonymous",
 
   "auth_form_pass_req": "Password required",
   "auth_form_pass_big": "Password must be greater than or equal to 8 characters",

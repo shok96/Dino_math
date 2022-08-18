@@ -6,8 +6,10 @@
  *
  */
 
+import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/domain/repository/userRepository.dart';
+import 'package:dino_solver/domain/usecases/intf/UCApp.dart';
 import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
 import 'package:dino_solver/presentation/bloc/auth/auth_state.dart';
 import 'package:dino_solver/presentation/pages/auth/auth_page.dart';
@@ -91,7 +93,8 @@ class _SplashState extends State<Splash> {
                       Image.asset(LocalImages.dino),
                       Text("splash2".tr()),
                     ],
-                  )
+                  ),
+                  Positioned(child: Text(di.sl<UCApp>().getVersion(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyText2?.copyWith(color: Colors.grey),), bottom: 30.h, left: 0, right: 0,),
                 ],
               ),
             );
