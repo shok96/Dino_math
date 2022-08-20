@@ -44,7 +44,7 @@ class Difficult extends StatelessWidget {
                     LocalImages.fon,
                     fit: BoxFit.cover,
                   ),),
-              Positioned(right:0, top: 50.h, child: LogoutWidget()),
+             // Positioned(right:0, top: 50.h, child: LogoutWidget()),
               Positioned(left:10.w, top: 50.h, child: BackButton()),
             ],
           ),

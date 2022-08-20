@@ -51,5 +51,10 @@
   "auth_form_pass":"Password",
 
   "splash1":"Dino",
-  "splash2":"Solver"
+  "splash2":"Solver",
+
+  "auth_exit_dialog_title": "What to do?",
+  "auth_exit_dialog_body": "Log out or delete the user for always?",
+  "auth_exit_dialog_button1": "Log out",
+  "auth_exit_dialog_button2": "Delete"
 }

@@ -6,9 +6,13 @@
  *
  */
 
+import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
+import 'package:dino_solver/presentation/bloc/auth/auth_state.dart';
 import 'package:dino_solver/presentation/pages/splash/splash.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Utils {
   static void routerScreen(BuildContext context, Widget child) {
@@ -44,9 +48,36 @@ class Utils {
     ));
   }
 
-  static void logOut(BuildContext context) async{
-        await FirebaseAuth.instance.signOut();
-        routerScreenDeleteStack(context, Splash());
+  static void logOut(BuildContext context) async {
+    if(FirebaseAuth.instance.currentUser != null){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('auth_exit_dialog_title'.tr()),
+        content: Text('auth_exit_dialog_body'.tr()),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async
+    {
+      await FirebaseAuth.instance.currentUser?.delete();
+      Navigator.pop(context);
+    },
+            child: Text('auth_exit_dialog_button2'.tr()),
+          ),
+          TextButton(
+            onPressed: () async{
+    await FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
+    },
+            child: Text('auth_exit_dialog_button1'.tr()),
+          ),
+        ],
+      ),
+    );}
+    else {
+      context.read<AuthCubit>().emit(AuthCubitState.LogOut());
+      routerScreenDeleteStack(context, Splash());
+    }
   }
 
 }

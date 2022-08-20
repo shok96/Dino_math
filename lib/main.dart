@@ -91,6 +91,7 @@ class MyApp extends StatelessWidget {
           child: ScreenUtilInit(
               designSize: Size(414, 896),
               builder: (BuildContext context, Widget? child) => MaterialApp(
+                debugShowCheckedModeBanner: false,
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,

@@ -43,5 +43,10 @@
   "auth_form_pass":"Пароль",
 
   "splash1":"Математика",
-  "splash2":"с Дино"
+  "splash2":"с Дино",
+
+  "auth_exit_dialog_title": "Что делать?",
+  "auth_exit_dialog_body": "Выйти или удалить пользователя на всегда?",
+  "auth_exit_dialog_button1": "Выйти",
+  "auth_exit_dialog_button2": "Удалить"
 }
