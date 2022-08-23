@@ -56,5 +56,7 @@
   "auth_exit_dialog_title": "What to do?",
   "auth_exit_dialog_body": "Log out or delete the user for always?",
   "auth_exit_dialog_button1": "Log out",
-  "auth_exit_dialog_button2": "Delete"
+  "auth_exit_dialog_button2": "Delete",
+
+  "huawei": "Currently not available on phones without Google Service"
 }

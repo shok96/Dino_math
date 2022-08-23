@@ -7,6 +7,7 @@
  */
 
 import 'package:dino_solver/core/common/colors.dart';
+import 'package:dino_solver/core/common/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,12 +16,14 @@ class AuthButton extends StatelessWidget {
   String text;
   bool loading;
   Color fillColor;
+  bool enabled;
+  String disabled_hint;
 
   AuthButton(
       {Key? key,
       required this.action,
       required this.text,
-      this.loading = false, required this.fillColor})
+      this.loading = false, required this.fillColor, this.disabled_hint = "", this.enabled = true})
       : super(key: key);
 
   @override
@@ -29,12 +32,17 @@ class AuthButton extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 16.h),
       child: GestureDetector(
         onTap: () {
+          if(!enabled)
+            {
+              Utils.toast(context, disabled_hint);
+              return;
+            }
           if (!loading) action();
         },
         child: Container(
           padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
-              color: fillColor,
+              color: enabled ? fillColor : Colors.grey,
               borderRadius: BorderRadius.circular(12.r)),
           child: Center(
             child: Row(

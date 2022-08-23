@@ -48,5 +48,7 @@
   "auth_exit_dialog_title": "Что делать?",
   "auth_exit_dialog_body": "Выйти или удалить пользователя на всегда?",
   "auth_exit_dialog_button1": "Выйти",
-  "auth_exit_dialog_button2": "Удалить"
+  "auth_exit_dialog_button2": "Удалить",
+
+  "huawei": "В данный момент не доступно на телефонах без Google Service"
 }

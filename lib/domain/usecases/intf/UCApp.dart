@@ -12,11 +12,14 @@ import 'package:dino_solver/data/models/MDifficult.dart';
 import 'package:dino_solver/data/models/MGame.dart';
 import 'package:dino_solver/data/models/MLevelSession.dart';
 import 'package:dino_solver/data/models/MMath.dart';
+import 'package:google_api_availability/google_api_availability.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 abstract class UCApp {
 
   void initPackageInfo(PackageInfo packageInfo);
   String getVersion();
+  void checkGoogleService(GooglePlayServicesAvailability availability);
+  bool getGoogleServide();
 
 }

@@ -9,6 +9,7 @@
 import 'package:dino_solver/core/common/colors.dart';
 import 'package:dino_solver/core/common/images.dart';
 import 'package:dino_solver/core/common/utils.dart';
+import 'package:dino_solver/domain/usecases/intf/UCApp.dart';
 import 'package:dino_solver/presentation/bloc/auth/auth_cubit.dart';
 import 'package:dino_solver/presentation/pages/welcome/welcome.dart';
 import 'package:dino_solver/presentation/widgets/auth_button.dart';
@@ -19,6 +20,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dino_solver/di.dart' as di;
 
 enum modeAuth { Login, Reg }
 
@@ -127,6 +129,8 @@ class _AuthPageState extends State<AuthPage> {
                         password: _password_controller,
                         email: _email_controller,
                         action: (call) => AuthButton(
+                            enabled: di.sl<UCApp>().getGoogleServide(),
+                            disabled_hint: "huawei".tr(),
                             fillColor: ConstColors.green,
                             loading: loading,
                             action: () async {
@@ -146,6 +150,8 @@ class _AuthPageState extends State<AuthPage> {
                             },
                             text: mode == modeAuth.Login ? "auth_i_know_login".tr() : "auth_i_need_reg".tr())),
                     AuthButton(
+                      enabled: di.sl<UCApp>().getGoogleServide(),
+                        disabled_hint: "huawei".tr(),
                         fillColor: ConstColors.green,
                         action: () {
                           setState(() {

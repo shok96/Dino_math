@@ -6,6 +6,8 @@
  *
  */
 
+import 'dart:io';
+
 import 'package:dino_solver/data/datasource/db/CacheDataSource.dart';
 import 'package:dino_solver/data/datasource/db/DB.dart';
 import 'package:dino_solver/data/datasource/db/db_controller.dart';
@@ -32,6 +34,7 @@ import 'package:dino_solver/presentation/bloc/level/bloc_level.dart';
 import 'package:dino_solver/presentation/bloc/user/bloc_user.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart' hide Headers;
+import 'package:google_api_availability/google_api_availability.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 final sl = GetIt.instance;
@@ -83,4 +86,8 @@ Future<void> init() async {
    sl.registerLazySingleton(() => database);
 
   sl<UCApp>().initPackageInfo(await PackageInfo.fromPlatform());
+
+  if(Platform.isAndroid){
+    sl<UCApp>().checkGoogleService(await GoogleApiAvailability.instance.checkGooglePlayServicesAvailability());
+  }
 }
